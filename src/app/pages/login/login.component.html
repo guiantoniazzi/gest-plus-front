@@ -1,0 +1,22 @@
+<h1>Login</h1>
+
+<form>
+  
+  <app-input 
+    label="Email" 
+    type="email" 
+    placeholder="Digite seu email"
+    [(ngModel)]="email"
+    name="email"
+  ></app-input>
+
+  <app-input 
+    label="Senha" 
+    type="password" 
+    placeholder="Digite sua senha"
+    [(ngModel)]="password"
+    name="senha"
+  ></app-input>
+
+  <button type="submit">Entrar</button>
+</form>
