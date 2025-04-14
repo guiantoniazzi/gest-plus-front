@@ -1,22 +1,9 @@
-<h1>Login</h1>
-
-<form (ngSubmit)="onSubmit()">
-  
-  <app-input 
-    label="Email" 
-    type="email" 
-    placeholder="Digite seu email"
-    [(ngModel)]="email"
-    name="email"
-  ></app-input>
-
-  <app-input 
-    label="Senha" 
-    type="password" 
-    placeholder="Digite sua senha"
-    [(ngModel)]="password"
-    name="senha"
-  ></app-input>
-
-  <button mat-raised-button color="primary" type="submit">Entrar</button>
-</form>
+<div class="screen">
+  <app-form titulo="Login" [campos]="campos" (submit)="onSubmit($event)">
+    <div class="botoes">
+      <button mat-flat-button color="primary" type="submit">
+          Enviar
+      </button>
+    </div>
+  </app-form>
+</div>

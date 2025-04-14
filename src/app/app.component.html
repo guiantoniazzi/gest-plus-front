@@ -1,4 +1,29 @@
-
-<app-sidebar *ngIf="showSidebar">
-</app-sidebar>
-<router-outlet></router-outlet>
+<div class="screen">
+    <mat-toolbar *ngIf="telasSemMenu">
+        <div class="logo">
+            <span>LOGO</span>
+        </div>
+        <div class="page-title">
+            <span>{{ page }}</span>
+            <div>
+                <button mat-icon-button>
+                    <mat-icon color="primary">logout</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-toolbar>
+    <div class="body" *ngIf="telasSemMenu">
+        <mat-sidenav-container class="sidenav-container">
+            <mat-sidenav mode="side" opened class="sidenav">
+                <mat-nav-list>
+                    <a *ngFor="let rota of rotas" mat-list-item [routerLink]="rota.link" routerLinkActive="active-link">
+                        <mat-icon color="primary">{{ rota.icon }}</mat-icon>
+                        {{ rota.label }}
+                    </a>
+                </mat-nav-list>
+            </mat-sidenav>
+        </mat-sidenav-container>
+        <router-outlet style="padding: 1%;"></router-outlet>
+    </div>
+    <router-outlet *ngIf="!telasSemMenu"></router-outlet>
+</div>
