@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { Rotas } from './models/rotas';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +15,6 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [CommonModule, RouterOutlet, MatToolbarModule, MatIconModule, MatButtonModule, RouterModule, MatSidenavModule, MatListModule]
 })
 export class AppComponent {
-  private cookieService = inject(CookieService);
 
   telasSemMenu = true;
   isDarkMode = false;
@@ -62,8 +60,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.cookieService.delete('tokenf', '/');
-    this.cookieService.delete('token', '/');
     this.router.navigate(['/login']);
   }
 }

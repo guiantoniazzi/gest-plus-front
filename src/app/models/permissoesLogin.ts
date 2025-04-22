@@ -4,4 +4,5 @@ export class PermissoesLogin {
     cdEmpresa!: number;
     nome!: string;
     cdFuncao!: string;
+    listCdFuncao!: number[];
 }

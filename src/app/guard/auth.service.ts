@@ -1,20 +1,19 @@
-import { inject, Injectable } from "@angular/core";
-import { CookieService } from "ngx-cookie-service";
+import { Injectable } from "@angular/core";
 import { PermissoesLogin } from "../models/permissoesLogin";
 
 @Injectable({
     providedIn: 'root'
   })
   export class AuthService {
-    private cookieService = inject(CookieService);
 
     private permissoesLogin!: PermissoesLogin;
 
     isLoggedIn(): boolean {
-      return !!this.cookieService.get('tokenf');
+      return !!this.permissoesLogin;
     }
 
     setLogin(permissoesLogin: PermissoesLogin): void {
+      permissoesLogin.listCdFuncao = permissoesLogin.cdFuncao.split('|').map(cdf => Number(cdf));
       this.permissoesLogin = permissoesLogin;
     }
 
