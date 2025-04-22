@@ -79,9 +79,10 @@ export class FormComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onSubmit(): void {
-      if (this.form.valid) {
-          this.submit.emit(this.form.value);
-      }
+  onSubmit(e: any): void {
+        e.stopPropagation();
+        if (this.form.valid) {
+            this.submit.emit(this.form.value);
+        }
   }
 }

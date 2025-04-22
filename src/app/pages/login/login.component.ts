@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { TipoCampo } from '../../enum/tipoCampo';
 import { FormComponent } from '../../components/form/form.component';
 import { max } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +16,16 @@ import { max } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
+
+@Injectable({providedIn: 'root'})
 export class LoginComponent {
-  constructor(private router: Router) { }
+  constructor(
+  ) {}
+
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private cookieService = inject(CookieService);
 
   campos = [
     {
@@ -32,7 +43,16 @@ export class LoginComponent {
     },
   ];
 
-  onSubmit(value: object): void {
-    console.log(value);
+  envio(value: any): void {
+    this.http.post(`${environment.apiBaseUrl}${environment.endpoints.login}`, value, {withCredentials: true}).subscribe({
+      next: (value: any) => {
+        this.router.navigate(['home']);
+      },
+      error(err) {
+        console.error(err);
+        alert('Usuário ou senha inválidos!');
+        // this.router.navigate(['/login']);
+      },
+    });
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { Rotas } from './models/rotas';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ import { MatListModule } from '@angular/material/list';
   imports: [CommonModule, RouterOutlet, MatToolbarModule, MatIconModule, MatButtonModule, RouterModule, MatSidenavModule, MatListModule]
 })
 export class AppComponent {
+  private cookieService = inject(CookieService);
+
   telasSemMenu = true;
   isDarkMode = false;
 
@@ -56,6 +59,12 @@ export class AppComponent {
     // document.body.classList.toggle('dark-theme', this.isDarkMode);
     document.body.classList.remove('dark-theme', 'light-theme');
     document.body.classList.add(this.isDarkMode ? 'dark-theme' : 'light-theme');
+  }
+
+  logout() {
+    this.cookieService.delete('tokenf', '/');
+    this.cookieService.delete('token', '/');
+    this.router.navigate(['/login']);
   }
 }
 
