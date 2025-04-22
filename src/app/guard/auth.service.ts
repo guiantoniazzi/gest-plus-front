@@ -20,4 +20,8 @@ import { PermissoesLogin } from "../models/permissoesLogin";
     getLogin(): PermissoesLogin {
       return this.permissoesLogin;
     }
+
+    logout(): void {
+      this.permissoesLogin = undefined!;
+    }
   }

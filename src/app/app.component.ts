@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { Rotas } from './models/rotas';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { AuthService } from './guard/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +43,10 @@ export class AppComponent {
   
   page!: string;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.page = this.rotas.find(rota => rota.link == event.url)?.label!;
@@ -60,6 +64,7 @@ export class AppComponent {
   }
 
   logout() {
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
