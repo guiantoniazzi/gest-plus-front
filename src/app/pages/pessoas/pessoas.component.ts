@@ -13,7 +13,7 @@ export class PessoasComponent {
 
   getPessoas() {
     this.http
-      .get(`${environment.apiBaseUrl}${environment.endpoints.pessoas}`, {
+      .get(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getAll}`, {
         withCredentials: true,
       })
       .subscribe({

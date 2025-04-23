@@ -43,7 +43,7 @@ export class LoginComponent {
   ];
 
   envio(value: any): void {
-    this.http.post(`${environment.apiBaseUrl}${environment.endpoints.login}`, value, {withCredentials: true}).subscribe({
+    this.http.post(`${environment.apiBaseUrl}${environment.endpoints.login.autenticar}`, value, {withCredentials: true}).subscribe({
       next: (value: any) => {
         this.authService.setLogin(value);
         this.router.navigate(['home']);

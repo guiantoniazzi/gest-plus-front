@@ -1,7 +1,14 @@
 export const environment = {
-    apiBaseUrl: 'http://localhost:3030',
+    apiBaseUrl: 'http://localhost:3030/api',
     endpoints: {
-        login: '/login',
-        pessoas: '/getAll'
+        login: {
+            autenticar: '/login/autenticar',
+        },
+        pessoas: {
+            getAll: '/pessoas/getAll',
+        },
+        perfisAcesso: {
+            getPerfisComFuncoes: '/perfisAcesso/getPerfisComFuncoes',
+        }
     }
 }
