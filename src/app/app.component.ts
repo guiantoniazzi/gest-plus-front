@@ -48,13 +48,6 @@ export class AppComponent {
     });
   }
 
-  ChangeTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    // document.body.classList.toggle('dark-theme', this.isDarkMode);
-    document.body.classList.remove('dark-theme', 'light-theme');
-    document.body.classList.add(this.isDarkMode ? 'dark-theme' : 'light-theme');
-  }
-
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);

@@ -51,3 +51,10 @@ mat-toolbar {
     padding: 0 2vw 0 0vw;
     width: 98vw - $width-menu-lateral;
 }
+
+.logo-image {
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
+    object-position: center;
+}

@@ -41,7 +41,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
   {
     link: '/cargos',
     label: 'Cargos',
-    icon: '',
+    icon: 'badge',
     acesso: [
       Funcionalidade['Consultar cargo'],
       Funcionalidade['Gerenciar cargo'],
@@ -50,7 +50,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
   {
     link: '/usuarios',
     label: 'Usuarios',
-    icon: '',
+    icon: 'account_circle',
     acesso: [
       Funcionalidade['Consultar usuário'],
       Funcionalidade['Gerenciar usuário'],
@@ -59,7 +59,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
   {
     link: '/perfis-acesso',
     label: 'Perfis de acesso',
-    icon: '',
+    icon: 'person_shield',
     acesso: [
       Funcionalidade['Consultar perfil de acesso'],
       Funcionalidade['Gerenciar perfil de acesso'],
