@@ -5,6 +5,7 @@ export class Rotas {
   public label!: string;
   public icon!: string;
   public acesso!: Funcionalidade[];
+  public visivel!: boolean;
 }
 
 export const DEFAULT_ROTAS: Rotas[] = [
@@ -13,6 +14,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
     label: 'Home',
     icon: 'home',
     acesso: [Funcionalidade['']],
+    visivel: true
   },
   {
     link: '/pessoas',
@@ -28,6 +30,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Gerenciar funcionário cliente'],
       Funcionalidade['Gerenciar pessoa'],
     ],
+    visivel: true
   },
   {
     link: '/projetos',
@@ -37,6 +40,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Gerenciar projeto'],
       Funcionalidade['Consultar projeto'],
     ],
+    visivel: true
   },
   {
     link: '/cargos',
@@ -46,6 +50,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Consultar cargo'],
       Funcionalidade['Gerenciar cargo'],
     ],
+    visivel: true
   },
   {
     link: '/usuarios',
@@ -55,6 +60,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Consultar usuário'],
       Funcionalidade['Gerenciar usuário'],
     ],
+    visivel: true
   },
   {
     link: '/perfis-acesso',
@@ -64,5 +70,15 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Consultar perfil de acesso'],
       Funcionalidade['Gerenciar perfil de acesso'],
     ],
+    visivel: true
+  },
+  {
+    link: '/perfis-acesso/cadastro',
+    label: 'Cadastro de perfis de acesso',
+    icon: '',
+    acesso: [
+      Funcionalidade['Gerenciar perfil de acesso'],
+    ],
+    visivel: false
   },
 ];

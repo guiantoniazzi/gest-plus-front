@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfisAcesso',
@@ -26,6 +27,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 })
 export class PerfisAcessoComponent implements AfterViewInit {
   private http = inject(HttpClient);
+  private router = inject(Router);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -112,6 +114,9 @@ export class PerfisAcessoComponent implements AfterViewInit {
   }
 
   onEdit(perfil: PerfisAcesso): void {
-    console.log(perfil);
+    console.log(this.router)
+    this.router.navigate([`/perfis-acesso/cadastro`], {
+      state: { perfilAcesso: perfil }
+    });
   }
 }

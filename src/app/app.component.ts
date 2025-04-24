@@ -34,7 +34,9 @@ export class AppComponent {
   telasSemMenu = true;
   isDarkMode = false;
 
-  rotas: Rotas[] = DEFAULT_ROTAS
+  rotas: Rotas[] = DEFAULT_ROTAS.filter(
+    (rota) => rota.visivel
+  );
 
   page!: string;
   
