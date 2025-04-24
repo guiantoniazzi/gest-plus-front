@@ -74,6 +74,11 @@ export class PerfisAcessoComponent implements AfterViewInit {
       cell: (e: PerfisAcesso) => `1`,
     },
     {
+      columnDef: 'ativo',
+      header: 'Ativo',
+      cell: (e: PerfisAcesso) => `${e.ativo}`,
+    },
+    {
       columnDef: 'funcoes',
       header: 'Funções',
       cell: () => ``,

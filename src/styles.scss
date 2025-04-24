@@ -26,7 +26,7 @@ $my-primary: mat.m2-define-palette((
 $light-theme: mat.m2-define-light-theme((
   color: (
     primary: $my-primary,
-    accent: mat.m2-define-palette(mat.$m2-pink-palette),
+    accent: mat.m2-define-palette(mat.$m2-green-palette),
     warn: mat.m2-define-palette(mat.$m2-red-palette),
   )
 ));

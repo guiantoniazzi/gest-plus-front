@@ -11,7 +11,7 @@ import { AuthService } from '../../guard/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, FormsModule, FormComponent], // Importa o InputComponent e FormsModule
+  imports: [FormsModule, MatButtonModule, FormComponent], // Importa o InputComponent e FormsModule
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
