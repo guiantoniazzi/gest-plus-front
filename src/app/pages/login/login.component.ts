@@ -32,13 +32,15 @@ export class LoginComponent {
       titulo: 'Usuário',
       tipo: TipoCampo.texto,
       obrigatorio: true,
-      maximo: 8
+      maximo: 8,
+      linha: 1
     },
     {
       nome: 'senha',
       titulo: 'Senha',
       tipo: TipoCampo.senha,
       obrigatorio: true,
+      linha: 2
     },
   ];
 

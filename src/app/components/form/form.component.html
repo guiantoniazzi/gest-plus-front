@@ -1,28 +1,52 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit($event)" class="mat-elevation-z2 form">
-  <h1>{{ titulo }}</h1>
-  <p>{{ subtitulo }}</p>
+    <h1>{{ titulo }}</h1>
+    <p>{{ subtitulo }}</p>
+  
+    <!-- Agrupando os campos por linha -->
+    <div *ngFor="let linha of linhas">
+      <div class="linha" style="display: flex; gap: 16px;">
+        <div *ngFor="let campo of linha">
+          <!-- Campo de texto ou senha -->
+          <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 0 || campo.tipo == 1 || campo.tipo == 3">
+            <mat-label>{{ campo.titulo }}</mat-label>
+            <input matInput [formControlName]="campo.nome" #controle 
+                   [type]="campo.tipo == 3 ? 'password' : 'text'" 
+                   [maxlength]="campo.maximo ?? null" 
+                   [value]="campo.valor || ''">
+            <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
+                Este campo é obrigatório.
+            </mat-error>
+            <mat-error *ngIf="form.get(campo.nome)?.errors?.['email']">
+                O e-mail informado é inválido.
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- Campo de data -->
+          <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 2">
+            <mat-label>{{ campo.titulo }}</mat-label>
+            <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+  
+          <!-- Campo de checkbox -->
+          <div class="campo" *ngIf="campo.tipo == 4">
+            <mat-checkbox #controle [formControlName]="campo.nome" [checked]="campo.valor">
+              {{ campo.titulo }}
+            </mat-checkbox>
+          </div>
 
-  @for (campo of campos; track $index) {
-  <div>
-      <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 0 || campo.tipo == 1 || campo.tipo == 3">
-          <mat-label>{{ campo.titulo }}</mat-label>
-          <input matInput [formControlName]="campo.nome" #controle [type]="campo.tipo == 3 ? 'password' : 'text'" [maxlength]="campo.maximo ?? null">
-          <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
-              Este campo é obrigatório.
-          </mat-error>
-          <mat-error *ngIf="form.get(campo.nome)?.errors?.['email']">
-              O e-mail informado é inválido.
-          </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 2">
-          <mat-label>{{ campo.titulo }}</mat-label>
-          <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-  </div>
-  }
-
-  <ng-content></ng-content>
-</form>
+          <mat-form-field *ngIf="campo.tipo == 5">
+            <mat-label>{{ campo.titulo }}</mat-label>
+            <mat-select [formControlName]="campo.nome" multiple>
+              @for (item of campo.lista; track item) {
+                <mat-option [value]="item.cdFuncao">{{ item.nomeFuncao }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  
+    <ng-content></ng-content>
+  </form>
