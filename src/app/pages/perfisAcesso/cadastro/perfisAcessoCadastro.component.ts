@@ -29,7 +29,7 @@ export class PerfisAcessoCadastroComponent {
 
     this.campos = [
       {
-        nome: 'cdPerfil',
+        nome: 'idPerfil',
         tipo: TipoCampo.texto,
         valor: this.perfilAcesso ? this.perfilAcesso.cdPerfil : undefined,
         invisivel: true,
