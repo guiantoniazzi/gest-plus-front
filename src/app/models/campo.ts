@@ -12,4 +12,5 @@ export type Campo = {
     valor?: string | number | boolean | FuncoesSistema[];
     linha?: number;
     lista?: Observable<FuncoesSistema[]>;
+    invisivel?: boolean;
 };

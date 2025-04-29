@@ -110,4 +110,9 @@ export class PerfisAcessoComponent implements AfterViewInit {
     this.perfisAcessoService.perfilAlteracao = perfil;
     this.router.navigate([`/perfis-acesso/cadastro`]);
   }
+
+  novo(): void {
+    this.perfisAcessoService.perfilAlteracao = undefined;
+    this.router.navigate([`/perfis-acesso/cadastro`]);
+  }
 }

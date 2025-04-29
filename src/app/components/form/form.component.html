@@ -6,13 +6,15 @@
     <div *ngFor="let linha of linhas">
       <div class="linha" style="display: flex; gap: 16px;">
         <div *ngFor="let campo of linha">
+          <!-- Campo invisível -->
+          <input *ngIf="campo.invisivel" [formControlName]="campo.nome" type="hidden">
+          
           <!-- Campo de texto ou senha -->
-          <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 0 || campo.tipo == 1 || campo.tipo == 3">
+          <mat-form-field appearance="fill" class="campo" *ngIf="!campo.invisivel && (campo.tipo == 0 || campo.tipo == 1 || campo.tipo == 3)">
             <mat-label>{{ campo.titulo }}</mat-label>
             <input matInput [formControlName]="campo.nome" #controle 
                    [type]="campo.tipo == 3 ? 'password' : 'text'" 
-                   [maxlength]="campo.maximo ?? null" 
-                   [value]="campo.valor || ''">
+                   [maxlength]="campo.maximo ?? null">
             <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
                 Este campo é obrigatório.
             </mat-error>
@@ -31,7 +33,7 @@
   
           <!-- Campo de checkbox -->
           <div class="campo" *ngIf="campo.tipo == 4">
-            <mat-checkbox #controle [formControlName]="campo.nome" [checked]="campo.valor">
+            <mat-checkbox #controle [formControlName]="campo.nome">
               {{ campo.titulo }}
             </mat-checkbox>
           </div>

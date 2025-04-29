@@ -58,3 +58,13 @@ mat-toolbar {
     object-fit: contain;
     object-position: center;
 }
+
+::ng-deep .snack-bar-success :first-child {
+    background-color: #4caf50 !important;
+    color: white !important;
+}
+
+::ng-deep .snack-bar-failed :first-child {
+    background-color: rgb(240, 53, 53) !important;
+    color: white !important;
+}

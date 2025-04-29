@@ -62,6 +62,7 @@ export class FormComponent implements OnInit, AfterViewInit {
         if (this.campos) {
             this.form = this.fb.group({});
             this.campos.forEach((campo) => {
+                console.log(campo);
                 let validators = [];
                 if (campo.obrigatorio) {
                     validators.push(Validators.required);
@@ -71,7 +72,7 @@ export class FormComponent implements OnInit, AfterViewInit {
                 }
                 this.form.addControl(
                     campo.nome,
-                    this.fb.control('', validators)
+                    this.fb.control(campo.valor || '', validators)
                 );
             });
             this.agruparCamposPorLinha();

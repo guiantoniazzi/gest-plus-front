@@ -3,6 +3,10 @@
   <input matInput (keyup)="applyFilter($event)" #input>
 </mat-form-field>
 
+<button mat-flat-button color="primary" (click)="novo()">
+  NOVO <mat-icon>add</mat-icon>
+</button>
+
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" matSort>
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">

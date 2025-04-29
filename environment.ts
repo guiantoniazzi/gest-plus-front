@@ -8,6 +8,8 @@ export const environment = {
             getAll: '/pessoas/getAll',
         },
         perfisAcesso: {
+            cadastrar: '/perfisAcesso/cadastrar',
+            alterar: '/perfisAcesso/alterar',
             getPerfisComFuncoes: '/perfisAcesso/getPerfisComFuncoes',
         },
         funcoesSistema: {
