@@ -36,12 +36,12 @@
             </mat-checkbox>
           </div>
 
-          <mat-form-field *ngIf="campo.tipo == 5">
+          <mat-form-field *ngIf="campo.tipo == 5" appearance="fill">
             <mat-label>{{ campo.titulo }}</mat-label>
             <mat-select [formControlName]="campo.nome" multiple>
-              @for (item of campo.lista; track item) {
-                <mat-option [value]="item.cdFuncao">{{ item.nomeFuncao }}</mat-option>
-              }
+              <mat-option *ngFor="let item of campo.lista | async" [value]="item.cdFuncao">
+                {{ item.nomeFuncao }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { PerfisAcessoService } from '../perfisAcesso.service';
 
 @Component({
   selector: 'app-perfisAcesso',
@@ -26,14 +27,21 @@ import { Router } from '@angular/router';
   styleUrl: './perfisAcesso.component.scss',
 })
 export class PerfisAcessoComponent implements AfterViewInit {
-  private http = inject(HttpClient);
   private router = inject(Router);
-  
+  private perfisAcessoService = inject(PerfisAcessoService);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-    this.getPerfisAcesso();
+    this.perfisAcessoService.getPerfisAcesso().subscribe({
+      next: (value: PerfisAcesso[]) => {
+        this.dataSource.data = value;
+      },
+      error(err) {
+        console.error(err);
+      }
+    });
   }
 
   ngOnInit() {
@@ -98,25 +106,8 @@ export class PerfisAcessoComponent implements AfterViewInit {
     }
   }
 
-  getPerfisAcesso() {
-    this.http
-      .get(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.getPerfisComFuncoes}`, {
-        withCredentials: true,
-      })
-      .subscribe({
-        next: (value: any) => {
-          this.dataSource.data = value;
-        },
-        error(err) {
-          console.error(err);
-        },
-      });
-  }
-
   onEdit(perfil: PerfisAcesso): void {
-    console.log(this.router)
-    this.router.navigate([`/perfis-acesso/cadastro`], {
-      state: { perfilAcesso: perfil }
-    });
+    this.perfisAcessoService.perfilAlteracao = perfil;
+    this.router.navigate([`/perfis-acesso/cadastro`]);
   }
 }

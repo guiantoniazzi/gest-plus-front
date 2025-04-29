@@ -1,3 +1,4 @@
+import { Observable } from "rxjs";
 import { TipoCampo } from "../enum/tipoCampo";
 import { FuncoesSistema } from "./funcoesSistema";
 
@@ -10,5 +11,5 @@ export type Campo = {
     maximo?: number;
     valor?: string | number | boolean | FuncoesSistema[];
     linha?: number;
-    lista?: FuncoesSistema[]
+    lista?: Observable<FuncoesSistema[]>;
 };

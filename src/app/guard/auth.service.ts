@@ -28,7 +28,6 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       window.sessionStorage.setItem('permissoesLogin', JSON.stringify(permissoes));
     }
-    console.log(this.permissoesLogin);
   }
 
   getLogin(): PermissoesLogin {

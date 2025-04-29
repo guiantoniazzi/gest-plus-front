@@ -9,6 +9,9 @@ export const environment = {
         },
         perfisAcesso: {
             getPerfisComFuncoes: '/perfisAcesso/getPerfisComFuncoes',
-        }
+        },
+        funcoesSistema: {
+            getAllActive: '/funcoesSistema/getAllActive',
+        },
     }
 }

@@ -3,7 +3,11 @@ import { TipoCampo } from "../../../enum/tipoCampo";
 import { FormComponent } from "../../../components/form/form.component";
 import { PerfisAcesso } from "../../../models/perfisAcesso";
 import { HttpClient } from "@angular/common/http";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from "../../../../../environment";
+import { FuncoesSistema } from "../../../models/funcoesSistema";
+import { catchError, map, Observable, of, tap } from "rxjs";
+import { PerfisAcessoService } from "../perfisAcesso.service";
 
 
 @Component({
@@ -15,18 +19,17 @@ import { Router } from '@angular/router';
   styleUrl: './perfisAcessoCadastro.component.scss',
 })
 export class PerfisAcessoCadastroComponent {
-  @Input() perfilAcesso!: PerfisAcesso;
-
   private http = inject(HttpClient);
-  private router = inject(Router);
+  private route = inject(ActivatedRoute)
+  private perfisAcessoService = inject(PerfisAcessoService);
+
+  private perfilAcesso?: PerfisAcesso;
 
   constructor(
   ) {}
 
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
-    this.perfilAcesso = navigation?.extras.state?.['perfilAcesso'];
-    console.log('Perfil recebido:', this.perfilAcesso);
+    this.perfilAcesso = this.perfisAcessoService.perfilAlteracao;
   }
 
   campos = [
@@ -52,10 +55,28 @@ export class PerfisAcessoCadastroComponent {
       tipo: TipoCampo.multiselect,
       valor: this.perfilAcesso ? this.perfilAcesso.funcoes : undefined,
       linha: 1,
+      lista: this.getAllFuncoes()
     },
   ];
 
   envio(value: any): void {
     
+  }
+
+  getAllFuncoes(): Observable<FuncoesSistema[]> {
+    return this.http.get<FuncoesSistema[]>(`${environment.apiBaseUrl}${environment.endpoints.funcoesSistema.getAllActive}`)
+      .pipe(
+        tap((funcoes) => {
+          funcoes.sort((a, b) => {
+            const segundaPalavraA = a.nomeFuncao.split(" ")[1] || ""; // Extrai a segunda palavra
+            const segundaPalavraB = b.nomeFuncao.split(" ")[1] || ""; // Extrai a segunda palavra
+            return segundaPalavraA.localeCompare(segundaPalavraB); // Ordena pela segunda palavra
+          });
+        }),
+      catchError((err): Observable<FuncoesSistema[]> => {
+        console.error(err);
+        return of([]);
+      })
+    )
   }
 }
