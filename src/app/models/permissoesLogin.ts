@@ -1,8 +1,14 @@
-export class PermissoesLogin {
+class PermissoesLogin {
     cdUsuario!: string;
     cdPessoa!: number;
-    cdEmpresa!: number;
     nome!: string;
-    cdFuncao!: string;
-    listCdFuncao!: number[];
+    empresa!: Empresa[];
 }
+
+class Empresa {
+    cdEmpresa!: number;
+    nomeEmpresa!: string;
+    cdFuncao!: number[];
+}
+
+export { PermissoesLogin, Empresa };

@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { TipoCampo } from "../enum/tipoCampo";
-import { FuncoesSistema } from "./funcoesSistema";
+import { ValidacaoCampo } from "../enum/validacaoCampo";
 
 export type Campo = {
     nome: string;
@@ -9,8 +9,17 @@ export type Campo = {
     obrigatorio?: boolean;
     mascara?: string;
     maximo?: number;
-    valor?: string | number | boolean | FuncoesSistema[];
+    valor?: string | number | boolean | ListaSelect[];
     linha?: number;
-    lista?: Observable<FuncoesSistema[]>;
+    // lista?: Observable<FuncoesSistema[]>;
+    lista?: ListaSelect[];
+    listaObservable?: Observable<ListaSelect[]>;
     invisivel?: boolean;
+    condicao?: string;
+    validacao?: ValidacaoCampo
+};
+
+type ListaSelect = {
+    label: string;
+    valor: string | number;
 };

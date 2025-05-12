@@ -4,6 +4,7 @@ import { FormComponent } from "../../../components/form/form.component";
 import { PerfisAcesso } from "../../../models/perfisAcesso";
 import { PerfisAcessoService } from "../perfisAcesso.service";
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { map } from "rxjs";
 
 
 @Component({
@@ -19,13 +20,13 @@ export class PerfisAcessoCadastroComponent {
   private snackBar = inject(MatSnackBar);
 
   private perfilAcesso?: PerfisAcesso;
+  campos: any[] = [];
 
   constructor(
   ) { }
 
   ngOnInit(): void {
     this.perfilAcesso = this.perfisAcessoService.perfilAlteracao;
-    console.log(this.perfilAcesso);
 
     this.campos = [
       {
@@ -46,7 +47,7 @@ export class PerfisAcessoCadastroComponent {
       {
         nome: 'ativo',
         titulo: 'Ativo',
-        tipo: TipoCampo.checkbox,
+        tipo: TipoCampo.toggle,
         valor: this.perfilAcesso ? this.perfilAcesso.ativo : true,
         linha: 1,
       },
@@ -56,13 +57,14 @@ export class PerfisAcessoCadastroComponent {
         tipo: TipoCampo.multiselect,
         valor: this.perfilAcesso ? this.perfilAcesso.funcoes.map((x) => x.cdFuncao) : undefined,
         linha: 1,
-        lista: this.perfisAcessoService.getAllFuncoes()
+        listaObservable: this.perfisAcessoService.getAllFuncoes().pipe(
+          map((response) => response.map((x: any) => ({ label: x.nomeFuncao, valor: x.cdFuncao })))
+        ),
       },
     ];
   }
 
-  campos: any[] = [];
-
+  
   envio(value: any): void {
     if (this.perfilAcesso) {
       this.perfisAcessoService.alterarPerfilAcesso(value).subscribe({

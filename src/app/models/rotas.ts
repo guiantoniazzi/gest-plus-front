@@ -33,6 +33,18 @@ export const DEFAULT_ROTAS: Rotas[] = [
     visivel: true
   },
   {
+    link: '/pessoas/cadastro',
+    label: 'Pessoas',
+    icon: 'groups',
+    acesso: [
+      Funcionalidade['Gerenciar cliente'],
+      Funcionalidade['Gerenciar empresa consultoria'],
+      Funcionalidade['Gerenciar funcionário cliente'],
+      Funcionalidade['Gerenciar pessoa'],
+    ],
+    visivel: false
+  },
+  {
     link: '/projetos',
     label: 'Projetos',
     icon: 'bar_chart',

@@ -21,9 +21,7 @@ export class AuthService {
   }
 
   setLogin(permissoes: PermissoesLogin): void {
-    permissoes.listCdFuncao = permissoes.cdFuncao.split('|').map((cdf) => Number(cdf));
     this.permissoesLogin = permissoes;
-
     // Salvar no sessionStorage apenas no navegador
     if (isPlatformBrowser(this.platformId)) {
       window.sessionStorage.setItem('permissoesLogin', JSON.stringify(permissoes));
@@ -48,12 +46,20 @@ export class AuthService {
       return false;
     }
     return rota.acesso.some(
-      (func) => this.permissoesLogin.listCdFuncao.includes(func) || func == Funcionalidade['']
+      (func) => func == Funcionalidade[''] || this.permissoesLogin.empresa.map(emp => emp.cdFuncao.includes(func)).includes(true)
     );
   }
 
   isLoggedIn(link: string): boolean {
     const rota = DEFAULT_ROTAS.find((r) => r.link == link);
+    if (!rota) {
+      return false;
+    }
+    return this.verificaNavegacao(rota);
+  }
+
+  verificaPermissaoPara(link: string, permissao: number): boolean {
+    const rota = DEFAULT_ROTAS.find((r) => r.link == link && r.acesso.includes(permissao));
     if (!rota) {
       return false;
     }
