@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -14,6 +14,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { AuthService } from './guard/auth.service';
 import { Funcionalidade } from './enum/funcionalidade';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { Empresa } from './models/permissoesLogin';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +32,14 @@ import { Funcionalidade } from './enum/funcionalidade';
     RouterModule,
     MatSidenavModule,
     MatListModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  private snackBar = inject(MatSnackBar);
+
   telasSemMenu = true;
   isDarkMode = false;
 
@@ -40,14 +49,25 @@ export class AppComponent {
 
   page!: string;
   
-  constructor(private router: Router, private authService: AuthService) {
+  empresas: Empresa[] = [];
+  selectedEmpresa = null;
+
+  constructor(private router: Router, public authService: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.page = this.rotas.find((rota) => rota.link == event.url)?.label!;
         const noBarRoutes = ['/', '/login'];
         this.telasSemMenu = !noBarRoutes.includes(event.urlAfterRedirects);
+
+        if(!authService.verificaRedirect(event.urlAfterRedirects)) {
+          this.router.navigate(['home']);
+        }
       }
     });
+  }
+
+  ngOnInit() {
+    this.carregarEmpresas();
   }
 
   logout() {
@@ -57,5 +77,17 @@ export class AppComponent {
 
   VerificaRenderizacao(rota: Rotas): boolean {
     return this.authService.verificaNavegacao(rota);
+  }
+
+  carregarEmpresas() {
+    this.empresas = this.authService.getLogin()?.empresa;
+  }
+  
+  changeEmpresa(event: MatSelectChange) {
+    this.authService.empresaSelected = event.value;
+    this.router.navigate([this.router.url]);
+    if(!this.authService.verificaRedirect(this.router.url)) {
+      this.router.navigate(['home']);
+    }
   }
 }

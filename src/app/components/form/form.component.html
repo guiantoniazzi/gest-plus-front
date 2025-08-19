@@ -32,7 +32,7 @@
                 <!-- Campo de data -->
                 <mat-form-field appearance="fill" class="campo" *ngIf="!campo.invisivel && campo.tipo == 2  && verificarCondicao(campo.condicao)">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle>
+                    <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle (selectionChange)="campo.change">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -46,7 +46,7 @@
 
                 <mat-form-field *ngIf="!campo.invisivel && campo.tipo == 5  && verificarCondicao(campo.condicao)" appearance="fill">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <mat-select [formControlName]="campo.nome" multiple #controle>
+                    <mat-select [formControlName]="campo.nome" multiple #controle (selectionChange)="campo.change">
                         <mat-option *ngFor="let item of campo.listaObservable | async" [value]="item.valor">
                             {{ item.label }}
                         </mat-option>

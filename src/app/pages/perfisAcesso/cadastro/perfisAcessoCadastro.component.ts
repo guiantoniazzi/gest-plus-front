@@ -64,7 +64,6 @@ export class PerfisAcessoCadastroComponent {
     ];
   }
 
-  
   envio(value: any): void {
     if (this.perfilAcesso) {
       this.perfisAcessoService.alterarPerfilAcesso(value).subscribe({

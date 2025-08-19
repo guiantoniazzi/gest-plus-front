@@ -4,6 +4,7 @@ import { environment } from '../../../../environment';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { PerfisAcesso } from '../../models/perfisAcesso';
 import { FuncoesSistema } from '../../models/funcoesSistema';
+import { AuthService } from '../../guard/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,12 +14,13 @@ export class PerfisAcessoService {
 
     public perfilAlteracao?: PerfisAcesso;
 
-    constructor() { }
+    constructor(private authService: AuthService) { }
 
     getPerfisAcesso(): Observable<PerfisAcesso[]> {
         return this.http
             .get<PerfisAcesso[]>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.getPerfisComFuncoes}`, {
                 withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
             });
     }
 
@@ -42,12 +44,14 @@ export class PerfisAcessoService {
     cadastrarPerfilAcesso(perfil: PerfisAcesso): Observable<PerfisAcesso> {
         return this.http.post<PerfisAcesso>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.cadastrar}`, perfil, {
             withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
         });
     }
     
     alterarPerfilAcesso(perfil: PerfisAcesso): Observable<PerfisAcesso> {
         return this.http.put<PerfisAcesso>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.alterar}`, perfil, {
             withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
         });
     }
 }

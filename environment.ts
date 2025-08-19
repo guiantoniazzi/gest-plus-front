@@ -6,6 +6,8 @@ export const environment = {
         },
         pessoas: {
             getAll: '/pessoas/getAll',
+            cadastrar: '/pessoas/cadastrar',
+            alterar: '/pessoas/alterar',
         },
         perfisAcesso: {
             cadastrar: '/perfisAcesso/cadastrar',

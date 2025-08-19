@@ -5,6 +5,12 @@
     </div>
     <div class="page-title">
       <span>{{ page }}</span>
+      <mat-label>Empresa em uso</mat-label>
+      <mat-select [(ngModel)]="authService.empresaSelected" *ngIf="empresas" (selectionChange)="changeEmpresa($event)">
+        <mat-option *ngFor="let item of empresas" [value]="item">
+            {{ item.nomeEmpresa }}
+        </mat-option>
+      </mat-select>
       <div>
         <button mat-icon-button>
           <mat-icon color="primary" (click)="logout()">logout</mat-icon>

@@ -10,6 +10,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { PessoasService } from '../pessoas.service';
 import { Pessoa } from '../../../models/pessoa';
+import { PessoaAux } from '../../../models/pessoaAux';
 
 @Component({
   selector: 'app-perfisAcesso',
@@ -33,14 +34,14 @@ export class PessoasComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-    // this.pessoasService.getPerfisAcesso().subscribe({
-    //   next: (value: PerfisAcesso[]) => {
-    //     this.dataSource.data = value;
-    //   },
-    //   error(err) {
-    //     console.error(err);
-    //   }
-    // });
+    this.pessoasService.getPessoas().subscribe({
+      next: (value: Pessoa[]) => {
+        this.dataSource.data = value;
+      },
+      error(err) {
+        console.error(err);
+      }
+    });
   }
 
   ngOnInit() {
@@ -68,24 +69,19 @@ export class PessoasComponent implements AfterViewInit {
   
   columns = [
     {
-      columnDef: 'descricao',
-      header: 'Descrição Perfil',
-      cell: (e: PerfisAcesso) => `${e.nomePerfil}`,
+      columnDef: 'nome',
+      header: 'Nome',
+      cell: (e: Pessoa) => `${e.pessoaAux.nome}`,
     },
     {
-      columnDef: 'quantidadeFuncoes',
-      header: 'Quantidade de Funções',
-      cell: (e: PerfisAcesso) => `${e.funcoes.length}`,
-    },
-    {
-      columnDef: 'quantidadeUsuarios',
-      header: 'Quantidade de Usuários',
-      cell: (e: PerfisAcesso) => `1`,
+      columnDef: 'tipo',
+      header: 'Tipo de Pessoa',
+      cell: (e: Pessoa) => `${e.tpPessoa}`,
     },
     {
       columnDef: 'ativo',
       header: 'Ativo',
-      cell: (e: PerfisAcesso) => `${e.ativo}`,
+      cell: (e: Pessoa) => `${e.pessoaAux.ativo}`,
     },
     {
       columnDef: 'funcoes',
@@ -106,6 +102,7 @@ export class PessoasComponent implements AfterViewInit {
   }
 
   onEdit(pessoa: Pessoa): void {
+    console.log(pessoa);
     this.pessoasService.pessoaAlteracao = pessoa;
     this.router.navigate([`/pessoas/cadastro`]);
   }

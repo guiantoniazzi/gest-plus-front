@@ -5,6 +5,8 @@ import { catchError, Observable, of, tap } from 'rxjs';
 import { PerfisAcesso } from '../../models/perfisAcesso';
 import { FuncoesSistema } from '../../models/funcoesSistema';
 import { Pessoa } from '../../models/pessoa';
+import { AuthService } from '../../guard/auth.service';
+import { PessoaAux } from '../../models/pessoaAux';
 
 @Injectable({
     providedIn: 'root',
@@ -14,41 +16,27 @@ export class PessoasService {
 
     public pessoaAlteracao?: Pessoa;
 
-    constructor() { }
+    constructor(private authService: AuthService) { }
 
-    getPessoas(): Observable<PerfisAcesso[]> {
+    getPessoas(): Observable<Pessoa[]> {
         return this.http
-            .get<PerfisAcesso[]>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.getPerfisComFuncoes}`, {
+            .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getAll}`, {
                 withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
             });
     }
 
-    getAllFuncoes(): Observable<FuncoesSistema[]> {
-        return this.http.get<FuncoesSistema[]>(`${environment.apiBaseUrl}${environment.endpoints.funcoesSistema.getAllActive}`)
-            .pipe(
-                tap((funcoes) => {
-                    funcoes.sort((a, b) => {
-                        const segundaPalavraA = a.nomeFuncao.split(" ")[1] || ""; // Extrai a segunda palavra
-                        const segundaPalavraB = b.nomeFuncao.split(" ")[1] || ""; // Extrai a segunda palavra
-                        return segundaPalavraA.localeCompare(segundaPalavraB); // Ordena pela segunda palavra
-                    });
-                }),
-                catchError((err): Observable<FuncoesSistema[]> => {
-                    console.error(err);
-                    return of([]);
-                })
-            )
-    }
-
-    cadastrarPerfilAcesso(perfil: PerfisAcesso): Observable<PerfisAcesso> {
-        return this.http.post<PerfisAcesso>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.cadastrar}`, perfil, {
+    cadastrarPessoa(pessoa: Pessoa): Observable<Pessoa> {
+        return this.http.post<Pessoa>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.cadastrar}`, pessoa, {
             withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
         });
     }
     
-    alterarPerfilAcesso(perfil: PerfisAcesso): Observable<PerfisAcesso> {
-        return this.http.put<PerfisAcesso>(`${environment.apiBaseUrl}${environment.endpoints.perfisAcesso.alterar}`, perfil, {
+    alterarPessoa(pessoa: Pessoa): Observable<Pessoa> {
+        return this.http.put<Pessoa>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.alterar}`, pessoa, {
             withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
         });
     }
 }

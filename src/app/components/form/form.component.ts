@@ -30,6 +30,7 @@ import { Campo } from '../../models/campo';
 import { TipoCampo } from '../../enum/tipoCampo';
 import { isObservable, of } from 'rxjs';
 import { ValidacaoCampo } from '../../enum/validacaoCampo';
+import { AuthService } from '../../guard/auth.service';
 
 @Component({
     selector: 'app-form',
@@ -57,6 +58,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     @ViewChildren('controle') controles!: QueryList<ElementRef>;
     form!: FormGroup;
     fb = inject(FormBuilder);
+    authService = inject(AuthService);
 
     linhas: Campo[][] = [];
 
@@ -196,5 +198,13 @@ export class FormComponent implements OnInit, AfterViewInit {
             console.error('Erro ao avaliar a condição:', condicao, error);
             return false; // Se houver erro na avaliação, o campo não será exibido
         }
+    }
+
+    changeEmpresaUsuario(event: any) {
+        console.log("====================");
+        console.log(this.form.get('empresaUsuario'));
+        this.form.get('empresaUsuario')?.reset();
+        this.form.get('empresa')?.reset();
+        this.form.get('funcionario')?.reset();
     }
 }

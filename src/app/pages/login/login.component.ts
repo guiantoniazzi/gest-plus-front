@@ -7,6 +7,7 @@ import { FormComponent } from '../../components/form/form.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environment';
 import { AuthService } from '../../guard/auth.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import { AuthService } from '../../guard/auth.service';
 @Injectable({providedIn: 'root'})
 export class LoginComponent {
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private appComponent: AppComponent
   ) {}
 
   private http = inject(HttpClient);
@@ -48,6 +50,7 @@ export class LoginComponent {
     this.http.post(`${environment.apiBaseUrl}${environment.endpoints.login.autenticar}`, value, {withCredentials: true}).subscribe({
       next: (value: any) => {
         this.authService.setLogin(value);
+        this.appComponent.carregarEmpresas();
         this.router.navigate(['home']);
       },
       error(err) {

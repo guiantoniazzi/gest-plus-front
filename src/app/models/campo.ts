@@ -17,6 +17,7 @@ export type Campo = {
     invisivel?: boolean;
     condicao?: string;
     validacao?: ValidacaoCampo
+    change?: string;
 };
 
 type ListaSelect = {
