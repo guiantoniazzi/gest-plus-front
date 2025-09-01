@@ -6,6 +6,8 @@ export const environment = {
         },
         pessoas: {
             getAll: '/pessoas/getAll',
+            getClientes: '/pessoas/getClientes',
+            getFuncionarios: '/pessoas/getFuncionarios',
             cadastrar: '/pessoas/cadastrar',
             alterar: '/pessoas/alterar',
         },
@@ -17,5 +19,16 @@ export const environment = {
         funcoesSistema: {
             getAllActive: '/funcoesSistema/getAllActive',
         },
+        cargo: {
+            getAll: '/cargo/getAll',
+        },
+        projeto: {
+            getAll: '/projeto/getAll',
+            cadastrar: '/projeto/cadastrar',
+            alterar: '/projeto/alterar',
+        },
+        situacaoProj: {
+            getAll: '/situacaoProj/getAll',
+        }
     }
 }

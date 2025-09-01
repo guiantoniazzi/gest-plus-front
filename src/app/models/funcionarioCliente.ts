@@ -1,8 +1,9 @@
 export type FuncionarioCliente = {
     cdFuncionario: number;
     cdCliente: number;
+    cdEmpresa: number;
     dtInicio: Date;
-    cargo: number;
+    cargoFuncionario: number;
     ativo: boolean;
     usuInclusao: string;
     dtHrInclusao: Date;

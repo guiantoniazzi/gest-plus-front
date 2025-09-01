@@ -45,7 +45,7 @@ export const DEFAULT_ROTAS: Rotas[] = [
     visivel: false
   },
   {
-    link: '/projetos',
+    link: '/projeto',
     label: 'Projetos',
     icon: 'bar_chart',
     acesso: [
@@ -53,6 +53,25 @@ export const DEFAULT_ROTAS: Rotas[] = [
       Funcionalidade['Consultar projeto'],
     ],
     visivel: true
+  },
+  {
+    link: '/projeto/cadastro',
+    label: 'Projetos',
+    icon: 'bar_chart',
+    acesso: [
+      Funcionalidade['Gerenciar projeto'],
+    ],
+    visivel: false
+  },
+  {
+    link: '/projeto/detalhe',
+    label: 'Projetos',
+    icon: 'bar_chart',
+    acesso: [
+      Funcionalidade['Consultar projeto'],
+      Funcionalidade['Gerenciar projeto'],
+    ],
+    visivel: false
   },
   {
     link: '/cargos',

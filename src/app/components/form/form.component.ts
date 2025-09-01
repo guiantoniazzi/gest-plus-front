@@ -31,6 +31,21 @@ import { TipoCampo } from '../../enum/tipoCampo';
 import { isObservable, of } from 'rxjs';
 import { ValidacaoCampo } from '../../enum/validacaoCampo';
 import { AuthService } from '../../guard/auth.service';
+import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { PessoasService } from '../../pages/pessoas/pessoas.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+export const MY_DATE_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'DD/MM/YYYY',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'app-form',
@@ -49,6 +64,10 @@ import { AuthService } from '../../guard/auth.service';
     ],
     templateUrl: './form.component.html',
     styleUrl: './form.component.scss',
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+    ],
 })
 export class FormComponent implements OnInit, AfterViewInit {
     @Input() titulo!: string;
@@ -59,14 +78,27 @@ export class FormComponent implements OnInit, AfterViewInit {
     form!: FormGroup;
     fb = inject(FormBuilder);
     authService = inject(AuthService);
+    pessoasService = inject(PessoasService);
+    private snackBar = inject(MatSnackBar);
 
     linhas: Campo[][] = [];
+
+    constructor() {
+        // Garante que o DateAdapter use pt-BR
+        inject(DateAdapter).setLocale('pt-BR');
+    }
 
     ngOnInit(): void {
         if (this.campos) {
             this.form = this.fb.group({});
             this.campos.forEach((campo) => {
                 let validators = [];
+                const isVisible = !campo.invisivel && this.verificarCondicao(campo.condicao);
+
+                // Se obrigatorioDisplayed está definido, usa ele para obrigatoriedade apenas quando visível
+                if (campo.obrigatorioDisplayed && isVisible) {
+                    validators.push(Validators.required);
+                } 
                 if (campo.obrigatorio) {
                     validators.push(Validators.required);
                 }
@@ -127,6 +159,7 @@ export class FormComponent implements OnInit, AfterViewInit {
             const campo = this.campos[index];
             if (campo.mascara) {
                 if (campo.mascara === 'CPFCNPJ') {
+                    // TODO: QUANDO DA CTRL V ELE FODDE TUDO
                     // Máscara condicional para CPF ou CNPJ
                     const mask = IMask(controle.nativeElement, {
                         mask: [
@@ -201,10 +234,66 @@ export class FormComponent implements OnInit, AfterViewInit {
     }
 
     changeEmpresaUsuario(event: any) {
-        console.log("====================");
-        console.log(this.form.get('empresaUsuario'));
         this.form.get('empresaUsuario')?.reset();
         this.form.get('empresa')?.reset();
         this.form.get('funcionario')?.reset();
+    }
+
+    changeToggleExclusive(event: any, campo: any) {
+        console.log('changeToggleExclusive', event, campo);
+        if (event.checked) {
+            // Desmarca todos os outros toggles da mesma linha, exceto o atual e o 'ativo'
+            this.campos.forEach(c => {
+                if (
+                    c.tipo === TipoCampo.toggle &&
+                    c.nome !== 'ativo' &&
+                    c.nome !== campo.nome &&
+                    c.linha === campo.linha
+                ) {
+                    // Atualiza tanto o valor do campo quanto o valor do FormControl
+                    c.valor = false;
+                    const control = this.form.get(c.nome);
+                    if (control) {
+                        control.setValue(false);
+                    }
+                }
+            });
+        }
+    }
+
+    callDynamicChange(event: any, campo: any) {
+        if (campo.change && typeof campo.change === 'string') {
+            // Extrai o nome da função (ex: 'changeToggleExclusive($event, campo)' => 'changeToggleExclusive')
+            const fnName = campo.change.split('(')[0].trim();
+            const fn = (this as any)[fnName];
+            if (typeof fn === 'function') {
+                fn.call(this, event, campo);
+            }
+        }
+    }
+
+    changeCliente(event: any) {
+        console.log('changeCliente', event);
+        this.pessoasService.getFuncionarios(event.value).subscribe({
+            next: (clientes) => {
+                const lista = clientes.map((c: any) => ({ label: c.pessoaAux.nome, valor: c.cdPessoa }));
+                const campoResp = this.campos.find(c => c.nome === 'cdRespProj');
+                if (campoResp) {
+                    campoResp.lista = lista;
+                    campoResp.listaObservable = of(lista);
+                }
+            },
+            error: () => {
+                this.snackBar.open('Erro ao buscar responsáveis!', 'Fechar', {
+                    duration: 3000,
+                    panelClass: ['snack-bar-failed']
+                });
+                const campoResp = this.campos.find(c => c.nome === 'cdRespProj');
+                if (campoResp) {
+                    campoResp.lista = [];
+                    campoResp.listaObservable = of([]);
+                }
+            }
+        });
     }
 }

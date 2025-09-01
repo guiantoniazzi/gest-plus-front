@@ -8,12 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { PessoasService } from '../pessoas.service';
+import { ProjetoService } from '../projeto.service';
 import { Pessoa } from '../../../models/pessoa';
 import { PessoaAux } from '../../../models/pessoaAux';
+import { Projeto } from '../../../models/projeto';
 
 @Component({
-  selector: 'app-pessoas',
+  selector: 'app-projeto',
   imports: [
     MatTableModule, 
     MatIconModule, 
@@ -23,43 +24,25 @@ import { PessoaAux } from '../../../models/pessoaAux';
     MatPaginatorModule,
     MatSortModule
   ],
-  templateUrl: './pessoas.component.html',
-  styleUrl: './pessoas.component.scss',
+  templateUrl: './projeto.component.html',
+  styleUrl: './projeto.component.scss',
 })
-export class PessoasComponent implements AfterViewInit {
+export class ProjetoComponent implements AfterViewInit {
   private router = inject(Router);
-  private pessoasService = inject(PessoasService);
+  private projetoService = inject(ProjetoService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-    this.pessoasService.getPessoas().subscribe({
-      next: (value: Pessoa[]) => {
+    this.projetoService.getProjetos().subscribe({
+      next: (value: Projeto[]) => {
         this.dataSource.data = value;
       },
       error(err) {
         console.error(err);
       }
     });
-  }
-
-  ngOnInit() {
-    // this.dataSource.filterPredicate = (data: PerfisAcesso, filter: string) => {
-    //   const dataStr = `${data.nomePerfil} ${data.funcoes.length}`;
-    //   return dataStr.toLowerCase().includes(filter);
-    // };
-
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'descricao':
-          return ''//item.nomePerfil.toLowerCase();
-        case 'quantidadeFuncoes':
-          return ''//item.funcoes.length;
-        default:
-          return (item as any)[property];
-      }
-    };
   }
 
   ngAfterViewInit() {
@@ -70,26 +53,31 @@ export class PessoasComponent implements AfterViewInit {
   columns = [
     {
       columnDef: 'nome',
-      header: 'Nome',
-      cell: (e: Pessoa) => `${e.pessoaAux.nome}`,
+      header: 'Nome Projeto',
+      cell: (e: Projeto) => `${e.nomeProj}`,
     },
     {
-      columnDef: 'tipo',
-      header: 'Tipo de Pessoa',
-      cell: (e: Pessoa) => `${e.tpPessoa}`,
+      columnDef: 'idInterno',
+      header: 'Identificação Interna',
+      cell: (e: Projeto) => `${e.idProjInterno}`,
     },
     {
-      columnDef: 'ativo',
-      header: 'Ativo',
-      cell: (e: Pessoa) => `${e.pessoaAux.ativo}`,
+      columnDef: 'idCliente',
+      header: 'Identificação Cliente',
+      cell: (e: Projeto) => `${e.idProjCliente}`,
     },
     {
+      columnDef: 'situacao',
+      header: 'Situação',
+      cell: (e: Projeto) => `${e.situacaoProj.descSituacao }`,
+    },
+        {
       columnDef: 'funcoes',
       header: 'Funções',
       cell: () => ``,
     }
   ];
-  dataSource: MatTableDataSource<Pessoa> = new MatTableDataSource<Pessoa>([]);
+  dataSource: MatTableDataSource<Projeto> = new MatTableDataSource<Projeto>([]);
   displayedColumns = this.columns.map(c => c.columnDef);
   
   applyFilter(event: Event) {
@@ -101,13 +89,13 @@ export class PessoasComponent implements AfterViewInit {
     }
   }
 
-  onEdit(pessoa: Pessoa): void {
-    this.pessoasService.pessoaAlteracao = pessoa;
-    this.router.navigate([`/pessoas/cadastro`]);
+  onSearch(projeto: Projeto): void {
+    this.projetoService.projetoAlteracao = projeto;
+    this.router.navigate([`/projeto/detalhe`]);
   }
 
   novo(): void {
-    this.pessoasService.pessoaAlteracao = undefined;
-    this.router.navigate([`/pessoas/cadastro`]);
+    this.projetoService.projetoAlteracao = undefined;
+    this.router.navigate([`/projeto/cadastro`]);
   }
 }

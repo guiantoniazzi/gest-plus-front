@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environment';
-import { catchError, Observable, of, tap } from 'rxjs';
-import { PerfisAcesso } from '../../models/perfisAcesso';
-import { FuncoesSistema } from '../../models/funcoesSistema';
+import { Observable } from 'rxjs';
 import { Pessoa } from '../../models/pessoa';
 import { AuthService } from '../../guard/auth.service';
-import { PessoaAux } from '../../models/pessoaAux';
+import { Cargo } from '../../models/cargo';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +19,30 @@ export class PessoasService {
     getPessoas(): Observable<Pessoa[]> {
         return this.http
             .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getAll}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
+            });
+    }
+
+    getClientes(): Observable<Pessoa[]> {
+        return this.http
+            .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getClientes}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa }
+            });
+    }
+
+    getFuncionarios(idCliente: number): Observable<Pessoa[]> {
+        return this.http
+            .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getFuncionarios}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa, idCliente: idCliente }
+            });
+    }
+
+    getCargos(): Observable<Cargo[]> {
+        return this.http
+            .get<Cargo[]>(`${environment.apiBaseUrl}${environment.endpoints.cargo.getAll}`, {
                 withCredentials: true,
                 params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa}
             });

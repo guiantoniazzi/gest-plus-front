@@ -13,11 +13,11 @@ import { DEFAULT_ROTAS, Rotas } from './models/rotas';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { AuthService } from './guard/auth.service';
-import { Funcionalidade } from './enum/funcionalidade';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { Empresa } from './models/permissoesLogin';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +34,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatListModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule
   ],
 })
 export class AppComponent implements OnInit {

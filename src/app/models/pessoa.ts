@@ -1,4 +1,4 @@
-import { ClienteEmpresa } from "./clienteEmpresa";
+import { FuncionarioCliente } from "./funcionarioCliente";
 import { PessoaAux } from "./pessoaAux";
 
 export type Pessoa = {
@@ -10,4 +10,5 @@ export type Pessoa = {
     usuAlteracao: string;
     dtHrAlteracao: Date;
     pessoaAux: PessoaAux;
+    funcionarioCliente: FuncionarioCliente;
 };

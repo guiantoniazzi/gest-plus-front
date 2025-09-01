@@ -1,0 +1,15 @@
+<div class="screen">
+  <mat-tab-group>
+    <mat-tab label="Dados Básicos">
+      <app-form [campos]="campos" (submit)="envio($event)">
+        <div class="botoes">
+          <button mat-flat-button color="primary" type="submit">
+              Enviar
+          </button>
+        </div>
+      </app-form>
+    </mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+  </mat-tab-group>
+</div>

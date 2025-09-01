@@ -71,18 +71,6 @@ export class AuthService {
     return this.verificaNavegacao(rota);
   }
 
-  verificaPermissaoPara(link: string, permissao: number): boolean {
-    const rota = DEFAULT_ROTAS.find((r) => r.link == link && r.acesso.includes(permissao));
-    if (!rota) {
-      return false;
-    }
-    return this.verificaNavegacao(rota);
-  }
-
-  verificaPermissaoParaFuncao(funcao: Funcionalidade): boolean {
-    return this.permissoesLogin.empresa.some((emp) => emp.cdFuncao.includes(funcao));
-  }
-
   verificaPermissaoParaFuncaoNaEmpresa(funcao: Funcionalidade): boolean {
     return this.permissoesLogin.empresa.some((emp) => emp.cdEmpresa == this.empresaSelected.cdEmpresa && emp.cdFuncao.includes(funcao));
   }
