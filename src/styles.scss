@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '@worktile/gantt/styles/index.scss';
 
 $my-primary: mat.m2-define-palette((
   100: #c0dfe1,

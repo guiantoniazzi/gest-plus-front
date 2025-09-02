@@ -15,6 +15,7 @@ import { SituacaoProj } from "../../../models/situacaoProj";
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from "../../../guard/auth.service";
 import { Funcionalidade } from "../../../enum/funcionalidade";
+import { GanttItem, NgxGanttModule } from '@worktile/gantt';
 
 
 @Component({
@@ -22,9 +23,10 @@ import { Funcionalidade } from "../../../enum/funcionalidade";
 
   imports: [
     FormComponent,
-    MatTabsModule
+    MatTabsModule,
+    NgxGanttModule
   ],
-
+  
   templateUrl: './projetoDetalhe.component.html',
 
   styleUrl: './projetoDetalhe.component.scss',
@@ -40,6 +42,12 @@ export class ProjetoDetalheComponent {
   constructor() { }
 
   campos: Campo[] = [];
+
+items: GanttItem[] = [
+  { id: '1', title: 'Tarefa 1', start: new Date('2025-09-01').getTime(), end: new Date('2025-09-05').getTime() },
+  { id: '2', title: 'Tarefa 2', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() }
+];
+
 
   ngOnInit(): void {
     this.campos = [
