@@ -6,6 +6,7 @@ import { AuthService } from '../../guard/auth.service';
 import { Projeto } from '../../models/projeto';
 import { SituacaoProj } from '../../models/situacaoProj';
 import { Atividade } from '../../models/atividade';
+import { Alocacao } from '../../models/alocacao';
 
 @Injectable({
     providedIn: 'root',
@@ -61,5 +62,12 @@ export class ProjetoService {
                 withCredentials: true,
                 params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa, idProj: idProj.toString() }
             });
+    }
+
+    alocarFuncionario(alocacao: Alocacao): Observable<Alocacao> {
+        return this.http.post<Alocacao>(`${environment.apiBaseUrl}${environment.endpoints.atividade.alocar}`, alocacao, {
+            withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa }
+        });
     }
 }

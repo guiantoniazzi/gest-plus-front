@@ -6,6 +6,7 @@ import { NgxGanttModule, GANTT_GLOBAL_CONFIG, GanttI18nLocale } from '@worktile/
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { routes } from './app.routes';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +17,8 @@ export const appConfig: ApplicationConfig = {
 
     importProvidersFrom(
       NgxGanttModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      MatNativeDateModule
     ),
 
     {

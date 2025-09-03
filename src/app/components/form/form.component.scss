@@ -5,3 +5,7 @@
 .campo {
   width: 100%;
 }
+
+.cdk-overlay-container {
+  z-index: 1100 !important; /* ou maior que o do MatDialog */
+}

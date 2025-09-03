@@ -16,14 +16,10 @@ import { SituacaoProj } from "../../../models/situacaoProj";
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from "../../../guard/auth.service";
 import { Funcionalidade } from "../../../enum/funcionalidade";
-<<<<<<< HEAD
-import { GanttItem, NgxGanttModule } from '@worktile/gantt';
 import { Atividade } from "../../../models/atividade";
 import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
-=======
 import { GanttI18nLocale, GanttItem, GanttViewType, NgxGanttModule } from '@worktile/gantt';
 import { CommonModule } from "@angular/common";
->>>>>>> b850b3f72840b4d549377807484819de6aace272
 
 
 @Component({
@@ -50,23 +46,13 @@ export class ProjetoDetalheComponent {
   readonly dialog = inject(MatDialog);
 
   constructor(
-    // private dialog: MatDialog
-
   ) { }
 
   campos: Campo[] = [];
 
-<<<<<<< HEAD
   items: GanttItem[] = [];
-=======
   viewType: GanttViewType = GanttViewType.month
 
-  items: GanttItem[] = [
-    { id: '1', title: 'Tarefa 1', start: new Date('2025-09-01').getTime(), end: new Date('2025-09-05').getTime() },
-    { id: '2', title: 'Tarefa 2', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() },
-    { id: '3', title: 'Tarefa 2.1', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() }
-  ];
->>>>>>> b850b3f72840b4d549377807484819de6aace272
 
 
   ngOnInit(): void {
@@ -298,7 +284,7 @@ export class ProjetoDetalheComponent {
   getAtividade() {
     this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
       next: (value: Atividade[]) => {
-        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: `Atividade ${ativ.cdAtiv}`, start: new Date(ativ.dtInicioAtiv).getTime(), end: new Date(ativ.dtFimAtiv).getTime() }));
+        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime() }));
       },
       error: (err) => {
         this.snackBar.open('Erro ao buscar atividades do projeto', 'Fechar', {

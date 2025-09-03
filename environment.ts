@@ -34,6 +34,7 @@ export const environment = {
         atividade: {
             getByProj: '/atividade/getByProj',
             cadastrar: '/atividade/cadastrar',
+            alocar: '/atividade/alocar',
         }
     }
 }
