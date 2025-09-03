@@ -1,5 +1,5 @@
 <div class="screen">
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="tabChange($event)">
     <mat-tab label="Dados Básicos">
       <app-form [campos]="campos" (submit)="envio($event)">
         <div class="botoes">
@@ -10,14 +10,19 @@
       </app-form>
     </mat-tab>
     <mat-tab label="Cronograma">
+      <div>
+        <button mat-flat-button color="primary" (click)="abrirModalTarefa()">
+          Nova tarefa
+        </button>
+      </div>
       <ngx-gantt [items]="items">
-  <ngx-gantt-table>
-    <!-- Coluna lateral padrão mostrando o título da tarefa -->
-    <ngx-gantt-column name="Título" width="200px">
-      <ng-template #cell let-item="item">{{ item.title }}</ng-template>
-    </ngx-gantt-column>
-  </ngx-gantt-table>
-</ngx-gantt>
+        <ngx-gantt-table>
+          <!-- Coluna lateral padrão mostrando o título da tarefa -->
+          <ngx-gantt-column name="Título" width="200px">
+            <ng-template #cell let-item="item">{{ item.title }}</ng-template>
+          </ngx-gantt-column>
+        </ngx-gantt-table>
+      </ngx-gantt>
     </mat-tab>
 
     <mat-tab label="Third">Content 3</mat-tab>

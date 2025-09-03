@@ -40,6 +40,14 @@ export class PessoasService {
             });
     }
 
+    getMeusFuncionarios(): Observable<Pessoa[]> {
+        return this.http
+            .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getMeusFuncionarios}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa }
+            });
+    }
+
     getCargos(): Observable<Cargo[]> {
         return this.http
             .get<Cargo[]>(`${environment.apiBaseUrl}${environment.endpoints.cargo.getAll}`, {

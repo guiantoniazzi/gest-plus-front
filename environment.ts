@@ -10,6 +10,7 @@ export const environment = {
             getFuncionarios: '/pessoas/getFuncionarios',
             cadastrar: '/pessoas/cadastrar',
             alterar: '/pessoas/alterar',
+            getMeusFuncionarios: '/pessoas/getMeusFuncionarios',
         },
         perfisAcesso: {
             cadastrar: '/perfisAcesso/cadastrar',
@@ -29,6 +30,10 @@ export const environment = {
         },
         situacaoProj: {
             getAll: '/situacaoProj/getAll',
+        },
+        atividade: {
+            getByProj: '/atividade/getByProj',
+            cadastrar: '/atividade/cadastrar',
         }
     }
 }

@@ -110,6 +110,14 @@ export class PessoasCadastroComponent {
         change: 'changeToggleExclusive($event, campo)',
       },
       {
+        nome: 'meuFunc',
+        titulo: 'Meu funcionário',
+        tipo: TipoCampo.toggle,
+        valor: !this.pessoasService.pessoaAlteracao?.pessoaAux.cliente && !this.pessoasService.pessoaAlteracao?.pessoaAux.cliente,
+        linha: 4,
+        change: 'changeToggleExclusive($event, campo)',
+      },
+      {
         nome: 'cliente',
         titulo: 'Cliente',
         tipo: TipoCampo.toggle,

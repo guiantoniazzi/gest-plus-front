@@ -6,16 +6,19 @@ import { TipoCampo } from "../../../enum/tipoCampo";
 import { FormComponent } from "../../../components/form/form.component";
 import { ProjetoService } from '../projeto.service';
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from "@angular/router";
 import { PessoasService } from "../../pessoas/pessoas.service";
 import { catchError, map, of } from "rxjs";
 import { Pessoa } from "../../../models/pessoa";
 import { Campo } from "../../../models/campo";
 import { SituacaoProj } from "../../../models/situacaoProj";
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from "../../../guard/auth.service";
 import { Funcionalidade } from "../../../enum/funcionalidade";
 import { GanttItem, NgxGanttModule } from '@worktile/gantt';
+import { Atividade } from "../../../models/atividade";
+import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
 
 
 @Component({
@@ -38,15 +41,16 @@ export class ProjetoDetalheComponent {
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  readonly dialog = inject(MatDialog);
 
-  constructor() { }
+  constructor(
+    // private dialog: MatDialog
+
+  ) { }
 
   campos: Campo[] = [];
 
-items: GanttItem[] = [
-  { id: '1', title: 'Tarefa 1', start: new Date('2025-09-01').getTime(), end: new Date('2025-09-05').getTime() },
-  { id: '2', title: 'Tarefa 2', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() }
-];
+  items: GanttItem[] = [];
 
 
   ngOnInit(): void {
@@ -267,6 +271,26 @@ items: GanttItem[] = [
     ];
   }
 
+  tabChange(event: MatTabChangeEvent) {
+    if (event.index === 1) {
+      this.getAtividade();
+    }
+  }
+
+  getAtividade() {
+    this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
+      next: (value: Atividade[]) => {
+        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: `Atividade ${ativ.cdAtiv}`, start: new Date(ativ.dtInicioAtiv).getTime(), end: new Date(ativ.dtFimAtiv).getTime() }));
+      },
+      error: (err) => {
+        this.snackBar.open('Erro ao buscar atividades do projeto', 'Fechar', {
+          duration: 3000,
+          panelClass: ['snack-bar-failed']
+        });
+      }
+    });
+  }
+
   envio(value: any): void {
     if (this.projetoService.projetoAlteracao) {
       this.projetoService.alterarProjeto(value).subscribe({
@@ -317,5 +341,9 @@ items: GanttItem[] = [
         }
       });
     }
+  }
+
+  abrirModalTarefa() {
+    this.dialog.open(TarefaDialogComponent)
   }
 }
