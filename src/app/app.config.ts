@@ -2,7 +2,7 @@ import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } fr
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { NgxGanttModule, GANTT_GLOBAL_CONFIG } from '@worktile/gantt';
+import { NgxGanttModule, GANTT_GLOBAL_CONFIG, GanttI18nLocale } from '@worktile/gantt';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { routes } from './app.routes';
@@ -14,18 +14,23 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
 
-    // IMPORTS DE MÓDULOS QUE PRECISAM SER FORNECIDOS NO ROOT
     importProvidersFrom(
       NgxGanttModule,
       MatSnackBarModule
     ),
 
-    // CONFIGURAÇÃO GLOBAL DO GANTT
     {
       provide: GANTT_GLOBAL_CONFIG,
       useValue: {
-        viewType: 'day',      // 'day' | 'week' | 'month'
-        showToolbar: true,
+        locale: GanttI18nLocale.enUs,
+        dateFormat: {
+          yearQuarter: "Q'/4  de ' yyyy",
+          month: "MM'/'yyyy",
+          yearMonth: "'mês ' MM ' de ' yyyy"
+        },
+        dateOptions: {
+          weekStartsOn: 0
+        }
       }
     }
   ]

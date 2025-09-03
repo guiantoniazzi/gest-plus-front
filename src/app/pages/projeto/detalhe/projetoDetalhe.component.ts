@@ -16,9 +16,14 @@ import { SituacaoProj } from "../../../models/situacaoProj";
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from "../../../guard/auth.service";
 import { Funcionalidade } from "../../../enum/funcionalidade";
+<<<<<<< HEAD
 import { GanttItem, NgxGanttModule } from '@worktile/gantt';
 import { Atividade } from "../../../models/atividade";
 import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
+=======
+import { GanttI18nLocale, GanttItem, GanttViewType, NgxGanttModule } from '@worktile/gantt';
+import { CommonModule } from "@angular/common";
+>>>>>>> b850b3f72840b4d549377807484819de6aace272
 
 
 @Component({
@@ -27,9 +32,10 @@ import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
   imports: [
     FormComponent,
     MatTabsModule,
-    NgxGanttModule
+    NgxGanttModule,
+    CommonModule
   ],
-  
+
   templateUrl: './projetoDetalhe.component.html',
 
   styleUrl: './projetoDetalhe.component.scss',
@@ -50,7 +56,17 @@ export class ProjetoDetalheComponent {
 
   campos: Campo[] = [];
 
+<<<<<<< HEAD
   items: GanttItem[] = [];
+=======
+  viewType: GanttViewType = GanttViewType.month
+
+  items: GanttItem[] = [
+    { id: '1', title: 'Tarefa 1', start: new Date('2025-09-01').getTime(), end: new Date('2025-09-05').getTime() },
+    { id: '2', title: 'Tarefa 2', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() },
+    { id: '3', title: 'Tarefa 2.1', start: new Date('2025-09-06').getTime(), end: new Date('2025-09-10').getTime() }
+  ];
+>>>>>>> b850b3f72840b4d549377807484819de6aace272
 
 
   ngOnInit(): void {
@@ -68,15 +84,15 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 1,
         listaObservable: this.pessoasService.getClientes().pipe(
-                  map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
-                  catchError(() => {
-                    this.snackBar.open('Erro ao buscar clientes', 'Fechar', {
-                      duration: 3000,
-                      panelClass: ['snack-bar-failed']
-                    });
-                    return of([]);
-                  })
-                ),
+          map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
+          catchError(() => {
+            this.snackBar.open('Erro ao buscar clientes', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed']
+            });
+            return of([]);
+          })
+        ),
         valor: this.projetoService.projetoAlteracao?.cdCliente,
         change: 'changeCliente($event)',
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
@@ -97,16 +113,16 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.select,
         obrigatorio: true,
         linha: 1,
-                listaObservable: this.pessoasService.getFuncionarios(this.projetoService.projetoAlteracao?.cdCliente!).pipe(
-                  map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
-                  catchError(() => {
-                    this.snackBar.open('Erro ao buscar clientes', 'Fechar', {
-                      duration: 3000,
-                      panelClass: ['snack-bar-failed']
-                    });
-                    return of([]);
-                  })
-                ),
+        listaObservable: this.pessoasService.getFuncionarios(this.projetoService.projetoAlteracao?.cdCliente!).pipe(
+          map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
+          catchError(() => {
+            this.snackBar.open('Erro ao buscar clientes', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed']
+            });
+            return of([]);
+          })
+        ),
         valor: this.projetoService.projetoAlteracao?.cdRespProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -269,6 +285,8 @@ export class ProjetoDetalheComponent {
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
     ];
+
+
   }
 
   tabChange(event: MatTabChangeEvent) {
