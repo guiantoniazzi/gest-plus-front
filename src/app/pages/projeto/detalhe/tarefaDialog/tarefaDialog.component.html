@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
   <mat-tab label="Dados Atividade">
     <app-form [campos]="campos" (submit)="envio($event)">
       <div class="dialog-footer">
@@ -6,7 +6,7 @@
       </div>
     </app-form>
   </mat-tab>
-  <mat-tab label="Alocar" *ngIf="projetoService.atividadeAlteracao">
+  <mat-tab label="Alocar" *ngIf="projetoService.atividadeCadastro || projetoService.atividadeAlteracao">
     <app-form [campos]="camposAlocacoes" (submit)="envio($event)">
       <div class="dialog-footer">
         <button mat-flat-button color="primary" type="submit">Alocar</button>

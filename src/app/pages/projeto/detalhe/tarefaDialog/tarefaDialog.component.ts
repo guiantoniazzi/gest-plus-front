@@ -4,13 +4,13 @@ import { Campo } from '../../../../models/campo';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TipoCampo } from '../../../../enum/tipoCampo';
 import { ProjetoService } from '../../projeto.service';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { SituacaoProj } from '../../../../models/situacaoProj';
 import { map, catchError, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PessoasService } from '../../../pessoas/pessoas.service';
 import { Pessoa } from '../../../../models/pessoa';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -175,13 +175,14 @@ export class TarefaDialogComponent {
     },
   ];
 
+  alocacoesProjeto: any;
+
   ngOnInit(): void {}
 
   envio(value: any): void {
-    console.log(value)
     if (value.cdPessoa) {
-      value.cdAtiv = this.projetoService.atividadeAlteracao?.cdAtiv;
-      value.cdProj = this.projetoService.atividadeAlteracao?.cdProj;
+      value.cdAtiv = this.projetoService.atividadeAlteracao ? this.projetoService.atividadeAlteracao?.cdAtiv : this.projetoService.atividadeCadastro?.cdAtiv;
+      value.cdProj = this.projetoService.atividadeAlteracao ? this.projetoService.atividadeAlteracao?.cdProj : this.projetoService.atividadeCadastro?.cdProj;
       this.projetoService.alocarFuncionario(value).subscribe({
         next: (response: any) => {
           this.snackBar.open('Funcionário alocado com sucesso', 'Fechar', {
@@ -203,9 +204,7 @@ export class TarefaDialogComponent {
             duration: 3000,
             panelClass: ['snack-bar-success'],
           });
-          console.log(response);
-          this.projetoService.atividadeAlteracao = response;
-          console.log(this.projetoService.atividadeAlteracao);
+          this.projetoService.atividadeCadastro = response;
         },
         error: (err) => {
           this.snackBar.open('Erro ao cadastrar a atividade', 'Fechar', {
@@ -216,4 +215,11 @@ export class TarefaDialogComponent {
       });
     }
   }
+  
+  onTabChange(e: MatTabChangeEvent) {
+    if (e.index == 2) {
+      
+    }
+  }
+  
 }

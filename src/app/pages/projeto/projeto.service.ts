@@ -15,7 +15,8 @@ export class ProjetoService {
     private http = inject(HttpClient);
 
     public projetoAlteracao?: Projeto;
-    public atividadeAlteracao?: Atividade;
+    public atividadeAlteracao?: Atividade = undefined;
+    public atividadeCadastro?: Atividade = undefined;
 
     constructor(private authService: AuthService) { }
 
