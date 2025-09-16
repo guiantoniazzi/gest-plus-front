@@ -7,13 +7,13 @@
         <div class="linha" style="display: flex; gap: 16px;">
             <div *ngFor="let campo of linha">
                 <!-- Campo invisível -->
-                <input *ngIf="campo.invisivel" [formControlName]="campo.nome" type="hidden" #controle>
+                <input [id]="campo.nome" *ngIf="campo.invisivel" [formControlName]="campo.nome" type="hidden" #controle>
 
                 <!-- Campo de texto ou senha -->
                 <mat-form-field appearance="fill" class="campo"
                     *ngIf="!campo.invisivel && verificarCondicao(campo.condicao) && (campo.tipo == 0 || campo.tipo == 3)">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <input matInput [formControlName]="campo.nome" #controle
+                    <input [id]="campo.nome" matInput [formControlName]="campo.nome" #controle
                         [type]="campo.tipo == 3 ? 'password' : 'text'" [maxlength]="campo.maximo ?? null" [readonly]="campo.readonly">
                     <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
                         Este campo é obrigatório.
@@ -32,7 +32,7 @@
                 <!-- Campo de data -->
                 <mat-form-field appearance="fill" class="campo" *ngIf="!campo.invisivel && campo.tipo == 2  && verificarCondicao(campo.condicao)">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle (selectionChange)="campo.change" [min]="campo.minData" [max]="campo.maxData">
+                    <input [id]="campo.nome" matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle (selectionChange)="campo.change" [min]="campo.minData" [max]="campo.maxData">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -46,7 +46,7 @@
 
                 <mat-form-field *ngIf="!campo.invisivel && campo.tipo == 5  && verificarCondicao(campo.condicao)" appearance="fill">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <mat-select [formControlName]="campo.nome" multiple #controle (selectionChange)="campo.change ? callDynamicChange($event, campo) : null">
+                    <mat-select [id]="campo.nome" [formControlName]="campo.nome" multiple #controle (selectionChange)="campo.change ? callDynamicChange($event, campo) : null">
                         <mat-option *ngFor="let item of campo.listaObservable | async" [value]="item.valor">
                             {{ item.label }}
                         </mat-option>
@@ -59,7 +59,7 @@
                 
                 <mat-form-field *ngIf="!campo.invisivel && campo.tipo == 7 && verificarCondicao(campo.condicao)" appearance="fill">
                     <mat-label>{{ campo.titulo }}</mat-label>
-                    <mat-select [formControlName]="campo.nome" #controle (selectionChange)="campo.change ? callDynamicChange($event, campo) : null">
+                    <mat-select [id]="campo.nome" [formControlName]="campo.nome" #controle (selectionChange)="campo.change ? callDynamicChange($event, campo) : null">
                         <mat-option *ngFor="let item of campo.listaObservable | async" [value]="item.valor">
                             {{ item.label }}
                         </mat-option>

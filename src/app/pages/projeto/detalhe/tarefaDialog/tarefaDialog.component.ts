@@ -1,17 +1,23 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormComponent } from '../../../../components/form/form.component';
-import { Campo } from '../../../../models/campo';
+import { Campo, ListaSelect } from '../../../../models/campo';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TipoCampo } from '../../../../enum/tipoCampo';
 import { ProjetoService } from '../../projeto.service';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { SituacaoProj } from '../../../../models/situacaoProj';
-import { map, catchError, of } from 'rxjs';
+import { map, catchError, of, filter } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PessoasService } from '../../../pessoas/pessoas.service';
 import { Pessoa } from '../../../../models/pessoa';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { PessoaAtividade } from '../../../../models/pessoaAtividade';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { Atividade } from '../../../../models/atividade';
 
 @Component({
   selector: 'app-tarefaDialog',
@@ -22,6 +28,10 @@ import { CommonModule } from '@angular/common';
     MatTabsModule,
     ReactiveFormsModule,
     CommonModule,
+    MatTableModule, 
+    MatPaginatorModule,
+    MatIconModule, 
+    MatSortModule
   ],
   templateUrl: './tarefaDialog.component.html',
   styleUrl: './tarefaDialog.component.scss',
@@ -31,7 +41,12 @@ export class TarefaDialogComponent {
   private pessoasService = inject(PessoasService);
   private snackBar = inject(MatSnackBar);
   private dialogRef = inject(MatDialogRef<TarefaDialogComponent>);
-  formGlobal = new FormGroup({});
+  
+  form: FormGroup = new FormGroup({});
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('formComponent') formComponent!: FormComponent;
 
   constructor() {}
 
@@ -155,7 +170,6 @@ export class TarefaDialogComponent {
           return of([]);
         })
       ),
-      // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       obrigatorio: true,
       linha: 1,
     },
@@ -163,7 +177,6 @@ export class TarefaDialogComponent {
       nome: 'dtInicio',
       titulo: 'Data início',
       tipo: TipoCampo.data,
-      // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       obrigatorio: true,
       linha: 2,
       minData: this.projetoService.atividadeAlteracao?.dtInicioPrevista,
@@ -173,7 +186,6 @@ export class TarefaDialogComponent {
       nome: 'dtFim',
       titulo: 'Data fim',
       tipo: TipoCampo.data,
-      // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       linha: 2,
       minData: this.projetoService.atividadeAlteracao?.dtInicioPrevista,
       maxData: this.projetoService.atividadeAlteracao?.dtFimPrevista,
@@ -182,14 +194,43 @@ export class TarefaDialogComponent {
       nome: 'qtdHr',
       titulo: 'Quantidade Horas',
       tipo: TipoCampo.texto,
-      // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       linha: 2,
     },
   ];
 
+  columns = [
+    {
+      columnDef: 'nome',
+      header: 'Nome',
+      cell: (e: PessoaAtividade) => `${e.pessoaAux.nome}`,
+    },
+    {
+      columnDef: 'dtInicio',
+      header: 'Data Início',
+      cell: (e: PessoaAtividade) => `${e.dtInicio}`,
+    },
+    {
+      columnDef: 'dtFim',
+      header: 'Data Fim',
+      cell: (e: PessoaAtividade) => `${e.dtFim}`,
+    },
+    {
+      columnDef: 'funcoes',
+      header: 'Funções',
+      cell: () => ``,
+    }
+  ];
+  dataSource: MatTableDataSource<PessoaAtividade> = new MatTableDataSource<PessoaAtividade>(
+    this.projetoService.atividadeAlteracao?.pessoasAtividade
+  );
+  displayedColumns = this.columns.map(c => c.columnDef);
+
   alocacoesProjeto: any;
 
-  ngOnInit(): void {}
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
   envio(value: any): void {
     if (value.cdPessoa) {
@@ -200,6 +241,27 @@ export class TarefaDialogComponent {
           this.snackBar.open('Funcionário alocado com sucesso', 'Fechar', {
             duration: 3000,
             panelClass: ['snack-bar-success'],
+          });
+
+          this.formComponent.patchForm({
+            cdPessoa: null,
+            dtInicio: null,
+            dtFim: null,
+            qtdHr: null,
+          });
+
+          this.projetoService.getAtividadeByProj(this.projetoService.atividadeAlteracao?.cdProj!).subscribe({
+            next: (atividades: any) => {
+              this.projetoService.projetoAlteracao!.atividade = atividades;
+              this.projetoService.atividadeAlteracao = atividades.find((a: Atividade) => a.cdAtiv == this.projetoService.atividadeAlteracao?.cdAtiv);
+              this.dataSource.data = this.projetoService.atividadeAlteracao!.pessoasAtividade;
+            },
+            error: (err: any) => {
+              this.snackBar.open('Erro ao buscar atividades', 'Fechar', {
+                duration: 3000,
+                panelClass: ['snack-bar-failed'],
+              });
+            }
           });
         },
         error: (err: any) => {
@@ -239,5 +301,14 @@ export class TarefaDialogComponent {
   onTabChange(e: MatTabChangeEvent) {
     if (e.index == 2) {
     }
+  }
+  
+  onEdit(row: PessoaAtividade) {
+    this.formComponent.patchForm({
+      cdPessoa: row.cdPessoa,
+      dtInicio: row.dtInicio,
+      dtFim: row.dtFim,
+      qtdHr: row.qtdHr,
+    })
   }
 }

@@ -1,3 +1,5 @@
+import { Pessoa } from "./pessoa";
+import { PessoaAtividade } from "./pessoaAtividade";
 import { SituacaoProj } from "./situacaoProj";
 
 export type Atividade = {
@@ -17,4 +19,5 @@ export type Atividade = {
     usuAlteracao: string;
     dtHrAlteracao: Date;
     situacaoProj: SituacaoProj;
+    pessoasAtividade: PessoaAtividade[];
 };
