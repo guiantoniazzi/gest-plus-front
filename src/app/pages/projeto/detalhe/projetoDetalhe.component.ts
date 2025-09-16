@@ -350,7 +350,4 @@ export class ProjetoDetalheComponent {
     this.dialog.open(TarefaDialogComponent)
   }
 
-  getStyle(status: number) {
-    return { backgroundColor: 'red' };
-  }
 }
