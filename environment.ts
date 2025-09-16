@@ -22,6 +22,8 @@ export const environment = {
         },
         cargo: {
             getAll: '/cargo/getAll',
+            cadastrar: '/cargo/cadastrar',
+            alterar: '/cargo/alterar',
         },
         projeto: {
             getAll: '/projeto/getAll',

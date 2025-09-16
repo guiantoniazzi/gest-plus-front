@@ -9,6 +9,8 @@ import { PessoasCadastroComponent } from './pages/pessoas/cadastro/pessoasCadast
 import { ProjetoComponent } from './pages/projeto/consulta/projeto.component';
 import { ProjetoCadastroComponent } from './pages/projeto/cadastro/projetoCadastro.component';
 import { ProjetoDetalheComponent } from './pages/projeto/detalhe/projetoDetalhe.component';
+import { CargosComponent } from './pages/cargos/consulta/cargos.component';
+import { CargosCadastroComponent } from './pages/cargos/cadastro/cargosCadastro.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent},
@@ -18,6 +20,8 @@ export const routes: Routes = [
     { path: 'pessoas/cadastro', component: PessoasCadastroComponent, canActivate: [AuthGuard] },
     { path: 'perfis-acesso', component: PerfisAcessoComponent, canActivate: [AuthGuard] },
     { path: 'perfis-acesso/cadastro', component: PerfisAcessoCadastroComponent, canActivate: [AuthGuard] },
+    { path: 'cargos', component: CargosComponent, canActivate: [AuthGuard] },
+    { path: 'cargos/cadastro', component: CargosCadastroComponent, canActivate: [AuthGuard] },
     { path: 'projeto', component: ProjetoComponent, canActivate: [AuthGuard] },
     { path: 'projeto/cadastro', component: ProjetoCadastroComponent, canActivate: [AuthGuard] },
     { path: 'projeto/detalhe', component: ProjetoDetalheComponent, canActivate: [AuthGuard] },

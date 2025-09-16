@@ -84,6 +84,15 @@ export const DEFAULT_ROTAS: Rotas[] = [
     visivel: true
   },
   {
+    link: '/cargos/cadastro',
+    label: 'Cadastro de cargos',
+    icon: '',
+    acesso: [
+      Funcionalidade['Gerenciar cargo'],
+    ],
+    visivel: false
+  },
+  {
     link: '/usuarios',
     label: 'Usuarios',
     icon: 'account_circle',
