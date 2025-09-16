@@ -57,6 +57,8 @@ export class TarefaDialogComponent {
       valor: this.projetoService.atividadeAlteracao?.dtInicioPrevista,
       obrigatorio: true,
       linha: 2,
+      minData: this.projetoService.projetoAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.projetoAlteracao?.dtFimPrevista,
     },
     {
       nome: 'dtFimPrevista',
@@ -65,6 +67,8 @@ export class TarefaDialogComponent {
       valor: this.projetoService.atividadeAlteracao?.dtFimPrevista,
       obrigatorio: true,
       linha: 2,
+      minData: this.projetoService.projetoAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.projetoAlteracao?.dtFimPrevista,
     },
     {
       nome: 'qtdHrPrevista',
@@ -95,6 +99,8 @@ export class TarefaDialogComponent {
       tipo: TipoCampo.texto,
       valor: this.projetoService.atividadeAlteracao?.dtInicioAtiv,
       linha: 4,
+      minData: this.projetoService.projetoAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.projetoAlteracao?.dtFimPrevista,
     },
     {
       nome: 'dtFimAtiv',
@@ -102,6 +108,8 @@ export class TarefaDialogComponent {
       tipo: TipoCampo.texto,
       valor: this.projetoService.atividadeAlteracao?.dtFimAtiv,
       linha: 4,
+      minData: this.projetoService.projetoAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.projetoAlteracao?.dtFimPrevista,
     },
     {
       nome: 'situacaoAtiv',
@@ -158,6 +166,8 @@ export class TarefaDialogComponent {
       // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       obrigatorio: true,
       linha: 2,
+      minData: this.projetoService.atividadeAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.atividadeAlteracao?.dtFimPrevista,
     },
     {
       nome: 'dtFim',
@@ -165,6 +175,8 @@ export class TarefaDialogComponent {
       tipo: TipoCampo.data,
       // valor: this.projetoService.atividadeAlteracao?.situacaoAtiv,
       linha: 2,
+      minData: this.projetoService.atividadeAlteracao?.dtInicioPrevista,
+      maxData: this.projetoService.atividadeAlteracao?.dtFimPrevista,
     },
     {
       nome: 'qtdHr',
@@ -205,6 +217,14 @@ export class TarefaDialogComponent {
             panelClass: ['snack-bar-success'],
           });
           this.projetoService.atividadeAlteracao = response;
+          this.camposAlocacoes.forEach((campo) => {
+            if (['dtInicio', 'dtFim'].includes(campo.nome)) {
+              campo.minData =
+                this.projetoService.atividadeAlteracao?.dtInicioPrevista;
+              campo.maxData =
+                this.projetoService.atividadeAlteracao?.dtFimPrevista;
+            }
+          });
         },
         error: (err) => {
           this.snackBar.open('Erro ao cadastrar a atividade', 'Fechar', {
@@ -215,11 +235,9 @@ export class TarefaDialogComponent {
       });
     }
   }
-  
+
   onTabChange(e: MatTabChangeEvent) {
     if (e.index == 2) {
-      
     }
   }
-  
 }
