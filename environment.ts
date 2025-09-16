@@ -1,3 +1,5 @@
+import { get } from "http";
+
 export const environment = {
     apiBaseUrl: 'http://localhost:3030/api',
     endpoints: {
@@ -11,6 +13,8 @@ export const environment = {
             cadastrar: '/pessoas/cadastrar',
             alterar: '/pessoas/alterar',
             getMeusFuncionarios: '/pessoas/getMeusFuncionarios',
+            getPessoas: '/pessoas/getPessoas',
+            getEmpresas: '/pessoas/getEmpresas',
         },
         perfisAcesso: {
             cadastrar: '/perfisAcesso/cadastrar',
@@ -24,6 +28,11 @@ export const environment = {
             getAll: '/cargo/getAll',
             cadastrar: '/cargo/cadastrar',
             alterar: '/cargo/alterar',
+        },
+        usuario: {
+            getAll: '/usuario/getAll',
+            cadastrar: '/usuario/cadastrar',
+            alterar: '/usuario/alterar',
         },
         projeto: {
             getAll: '/projeto/getAll',

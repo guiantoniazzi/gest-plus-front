@@ -103,6 +103,15 @@ export const DEFAULT_ROTAS: Rotas[] = [
     visivel: true
   },
   {
+    link: '/usuarios/cadastro',
+    label: 'Cadastro de usuários',
+    icon: '',
+    acesso: [
+      Funcionalidade['Gerenciar usuário'],
+    ],
+    visivel: false
+  },
+  {
     link: '/perfis-acesso',
     label: 'Perfis de acesso',
     icon: 'person_shield',
