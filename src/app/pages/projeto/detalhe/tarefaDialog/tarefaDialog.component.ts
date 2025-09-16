@@ -181,8 +181,8 @@ export class TarefaDialogComponent {
 
   envio(value: any): void {
     if (value.cdPessoa) {
-      value.cdAtiv = this.projetoService.atividadeAlteracao ? this.projetoService.atividadeAlteracao?.cdAtiv : this.projetoService.atividadeCadastro?.cdAtiv;
-      value.cdProj = this.projetoService.atividadeAlteracao ? this.projetoService.atividadeAlteracao?.cdProj : this.projetoService.atividadeCadastro?.cdProj;
+      value.cdAtiv = this.projetoService.atividadeAlteracao?.cdAtiv;
+      value.cdProj = this.projetoService.atividadeAlteracao?.cdProj;
       this.projetoService.alocarFuncionario(value).subscribe({
         next: (response: any) => {
           this.snackBar.open('Funcionário alocado com sucesso', 'Fechar', {
@@ -204,7 +204,7 @@ export class TarefaDialogComponent {
             duration: 3000,
             panelClass: ['snack-bar-success'],
           });
-          this.projetoService.atividadeCadastro = response;
+          this.projetoService.atividadeAlteracao = response;
         },
         error: (err) => {
           this.snackBar.open('Erro ao cadastrar a atividade', 'Fechar', {

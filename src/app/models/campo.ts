@@ -20,6 +20,9 @@ export type Campo = {
     validacao?: ValidacaoCampo
     change?: string;
     readonly?: boolean;
+
+    maxData?: Date;
+    minData?: Date;
 };
 
 type ListaSelect = {

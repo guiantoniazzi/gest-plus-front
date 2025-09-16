@@ -16,7 +16,6 @@ export class ProjetoService {
 
     public projetoAlteracao?: Projeto;
     public atividadeAlteracao?: Atividade = undefined;
-    public atividadeCadastro?: Atividade = undefined;
 
     constructor(private authService: AuthService) { }
 
