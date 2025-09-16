@@ -15,7 +15,10 @@
           Nova tarefa
         </button>
       </div>
-      <ngx-gantt [items]="items" [viewType]="viewType">
+      <ngx-gantt [items]="items" [viewType]="viewType"
+        [selectable]="true"
+        (selectedChange)="selectedChange($event)"
+      >
         <ngx-gantt-table>
           <ngx-gantt-column name="Título" width="120px">
             <ng-template #cell let-item="item">{{ item.title }}</ng-template>

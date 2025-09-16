@@ -296,4 +296,9 @@ export class FormComponent implements OnInit, AfterViewInit {
             }
         });
     }
+
+    patchForm(valores: any) {
+        console.log(valores)
+        this.form.patchValue(valores);
+    }
 }

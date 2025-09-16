@@ -18,7 +18,7 @@ import { AuthService } from "../../../guard/auth.service";
 import { Funcionalidade } from "../../../enum/funcionalidade";
 import { Atividade } from "../../../models/atividade";
 import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
-import { GanttI18nLocale, GanttItem, GanttViewType, NgxGanttModule } from '@worktile/gantt';
+import { GanttBarClickEvent, GanttI18nLocale, GanttItem, GanttSelectedEvent, GanttViewType, NgxGanttModule } from '@worktile/gantt';
 import { CommonModule } from "@angular/common";
 
 
@@ -51,6 +51,7 @@ export class ProjetoDetalheComponent {
   campos: Campo[] = [];
 
   items: GanttItem[] = [];
+  // atividades: Atividade[] = [];
   viewType: GanttViewType = GanttViewType.month
 
 
@@ -282,7 +283,7 @@ export class ProjetoDetalheComponent {
   getAtividade() {
     this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
       next: (value: Atividade[]) => {
-        console.log(value)
+        this.projetoService.projetoAlteracao!.atividade = value;
         this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
       },
       error: (err) => {
@@ -347,7 +348,25 @@ export class ProjetoDetalheComponent {
   }
 
   abrirModalTarefa() {
+    this.dialog.open(TarefaDialogComponent).afterClosed().subscribe(() => {
+      this.items = this.projetoService.projetoAlteracao!.atividade!.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
+      this.projetoService.atividadeAlteracao = undefined;
+    });
+  }
+
+  getStyle(status: number) {
+    return { backgroundColor: 'red' };
+  }
+
+  selectedChange(event: GanttSelectedEvent) {
+    var ganttItem = (event.selectedValue as GanttItem)
+    this.projetoService.atividadeAlteracao = this.projetoService.projetoAlteracao!.atividade!.find(atv => atv.cdAtiv.toString() == ganttItem.id);
+
     this.dialog.open(TarefaDialogComponent)
   }
 
+  // onBarClick(event: GanttBarClickEvent) {
+  // console.log('Barra clicada', event.item);
+  // aqui você faz o que quiser: abrir modal, navegar, etc.
+  // }
 }

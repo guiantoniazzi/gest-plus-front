@@ -10,7 +10,7 @@ export type Campo = {
     obrigatorioDisplayed?: boolean;
     mascara?: string;
     maximo?: number;
-    valor?: string | number | boolean | Date | ListaSelect[];
+    valor?: string | number | boolean | Date | ListaSelect[] | number[];
     linha?: number;
     // lista?: Observable<FuncoesSistema[]>;
     lista?: ListaSelect[];
@@ -25,7 +25,7 @@ export type Campo = {
     minData?: Date;
 };
 
-type ListaSelect = {
+export type ListaSelect = {
     label: string;
     valor: string | number;
 };
