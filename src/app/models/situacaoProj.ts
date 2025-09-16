@@ -1,4 +1,5 @@
 export type SituacaoProj = {
+  cor: string;
   cdSituacao: number;
   descSituacao: string;
   ativo: number;

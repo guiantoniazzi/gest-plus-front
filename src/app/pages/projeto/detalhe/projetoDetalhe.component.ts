@@ -271,8 +271,6 @@ export class ProjetoDetalheComponent {
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
     ];
-
-
   }
 
   tabChange(event: MatTabChangeEvent) {
@@ -284,7 +282,8 @@ export class ProjetoDetalheComponent {
   getAtividade() {
     this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
       next: (value: Atividade[]) => {
-        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime() }));
+        console.log(value)
+        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
       },
       error: (err) => {
         this.snackBar.open('Erro ao buscar atividades do projeto', 'Fechar', {
@@ -349,5 +348,9 @@ export class ProjetoDetalheComponent {
 
   abrirModalTarefa() {
     this.dialog.open(TarefaDialogComponent)
+  }
+
+  getStyle(status: number) {
+    return { backgroundColor: 'red' };
   }
 }
