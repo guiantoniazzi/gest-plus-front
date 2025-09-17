@@ -20,6 +20,11 @@ import { Atividade } from "../../../models/atividade";
 import { TarefaDialogComponent } from "./tarefaDialog/tarefaDialog.component";
 import { GanttBarClickEvent, GanttI18nLocale, GanttItem, GanttSelectedEvent, GanttViewType, NgxGanttModule } from '@worktile/gantt';
 import { CommonModule } from "@angular/common";
+import { Projeto } from "../../../models/projeto";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatIconModule } from "@angular/material/icon";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
 
 
 @Component({
@@ -29,7 +34,11 @@ import { CommonModule } from "@angular/common";
     FormComponent,
     MatTabsModule,
     NgxGanttModule,
-    CommonModule
+    CommonModule,
+    MatTableModule, 
+    MatPaginatorModule,
+    MatIconModule, 
+    MatSortModule
   ],
 
   templateUrl: './projetoDetalhe.component.html',
@@ -54,6 +63,45 @@ export class ProjetoDetalheComponent {
   // atividades: Atividade[] = [];
   viewType: GanttViewType = GanttViewType.month
 
+  columns = [
+    {
+      columnDef: 'situacao',
+      header: 'Situação',
+      cell: (e: Projeto) => `${e.situacaoProj.descSituacao}`,
+    },
+    {
+      columnDef: 'nome',
+      header: 'Nome',
+      cell: (e: Projeto) => `${e.nomeProj}`,
+    },
+    {
+      columnDef: 'idProjInterno',
+      header: 'ID Interno',
+      cell: (e: Projeto) => `${e.idProjInterno}`,
+    },
+    {
+      columnDef: 'idProjCliente',
+      header: 'ID Cliente',
+      cell: (e: Projeto) => `${e.idProjCliente}`,
+    },
+    {
+      columnDef: 'dtInicioPrevista',
+      header: 'Início Previsto',
+      cell: (e: Projeto) => `${e.dtInicioPrevista}`,
+    },
+    {
+      columnDef: 'dtInicioProj',
+      header: 'Início Projeto',
+      cell: (e: Projeto) => `${e.dtInicioProj}`,
+    },
+    {
+      columnDef: 'dtFimPrevisto',
+      header: 'Fim Previsto',
+      cell: (e: Projeto) => `${e.dtFimPrevista}`,
+    },
+  ];
+  dataSource: MatTableDataSource<Projeto> = new MatTableDataSource<Projeto>([]);
+  displayedColumns = this.columns.map(c => c.columnDef);
 
 
   ngOnInit(): void {
@@ -278,95 +326,108 @@ export class ProjetoDetalheComponent {
     if (event.index === 1) {
       this.getAtividade();
     }
+    else if (event.index === 2) {
+      this.projetoService.getHistoricoProjeto(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
+        next: (value: Projeto[]) => {
+          this.dataSource.data = value;
+        },
+        error: (err) => {
+          this.snackBar.open('Erro ao buscar histórico do projeto', 'Fechar', {
+            duration: 3000,
+            panelClass: ['snack-bar-failed']
+          });
+        }
+      })
+    }
   }
 
   getAtividade() {
-    this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
-      next: (value: Atividade[]) => {
-        this.projetoService.projetoAlteracao!.atividade = value;
-        this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
-      },
-      error: (err) => {
-        this.snackBar.open('Erro ao buscar atividades do projeto', 'Fechar', {
-          duration: 3000,
-          panelClass: ['snack-bar-failed']
+        this.projetoService.getAtividadeByProj(this.projetoService.projetoAlteracao?.cdProj!).subscribe({
+          next: (value: Atividade[]) => {
+            this.projetoService.projetoAlteracao!.atividade = value;
+            this.items = value.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
+          },
+          error: (err) => {
+            this.snackBar.open('Erro ao buscar atividades do projeto', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed']
+            });
+          }
         });
       }
-    });
-  }
 
   envio(value: any): void {
-    if (this.projetoService.projetoAlteracao) {
-      this.projetoService.alterarProjeto(value).subscribe({
-        next: (value: any) => {
-          this.snackBar.open('Projeto alterado com sucesso!',
-            'Fechar',
-            {
-              duration: 3000,
+        if(this.projetoService.projetoAlteracao) {
+        this.projetoService.alterarProjeto(value).subscribe({
+          next: (value: any) => {
+            this.snackBar.open('Projeto alterado com sucesso!',
+              'Fechar',
+              {
+                duration: 3000,
 
-              panelClass: ['snack-bar-success']
-            });
-          this.projetoService.projetoAlteracao = undefined;
-          this.router.navigate(['/projeto']);
-        },
+                panelClass: ['snack-bar-success']
+              });
+            this.projetoService.projetoAlteracao = undefined;
+            this.router.navigate(['/projeto']);
+          },
 
-        error: (err) => {
-          this.snackBar.open('Erro ao alterar o projeto!',
-            'Fechar',
-            {
-              duration: 3000,
+          error: (err) => {
+            this.snackBar.open('Erro ao alterar o projeto!',
+              'Fechar',
+              {
+                duration: 3000,
 
-              panelClass: ['snack-bar-failed']
-            });
-        }
-      });
-    }
+                panelClass: ['snack-bar-failed']
+              });
+          }
+        });
+      }
     else {
-      this.projetoService.cadastrarProjeto(value).subscribe({
-        next: (value: any) => {
-          this.snackBar.open('Projeto cadastrado com sucesso!',
-            'Fechar',
-            {
-              duration: 3000,
+        this.projetoService.cadastrarProjeto(value).subscribe({
+          next: (value: any) => {
+            this.snackBar.open('Projeto cadastrado com sucesso!',
+              'Fechar',
+              {
+                duration: 3000,
 
-              panelClass: ['snack-bar-success']
-            });
-          this.projetoService.projetoAlteracao = undefined;
-        },
+                panelClass: ['snack-bar-success']
+              });
+            this.projetoService.projetoAlteracao = undefined;
+          },
 
-        error: (err) => {
-          this.snackBar.open('Erro ao cadastrar o projeto!',
-            'Fechar',
-            {
-              duration: 3000,
+          error: (err) => {
+            this.snackBar.open('Erro ao cadastrar o projeto!',
+              'Fechar',
+              {
+                duration: 3000,
 
-              panelClass: ['snack-bar-failed']
-            });
-        }
+                panelClass: ['snack-bar-failed']
+              });
+          }
+        });
+      }
+    }
+
+    abrirModalTarefa() {
+      this.dialog.open(TarefaDialogComponent).afterClosed().subscribe(() => {
+        this.items = this.projetoService.projetoAlteracao!.atividade!.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
+        this.projetoService.atividadeAlteracao = undefined;
       });
     }
+
+    getStyle(status: number) {
+      return { backgroundColor: 'red' };
+    }
+
+    selectedChange(event: GanttSelectedEvent) {
+      var ganttItem = (event.selectedValue as GanttItem)
+      this.projetoService.atividadeAlteracao = this.projetoService.projetoAlteracao!.atividade!.find(atv => atv.cdAtiv.toString() == ganttItem.id);
+
+      this.dialog.open(TarefaDialogComponent)
+    }
+
+    // onBarClick(event: GanttBarClickEvent) {
+    // console.log('Barra clicada', event.item);
+    // aqui você faz o que quiser: abrir modal, navegar, etc.
+    // }
   }
-
-  abrirModalTarefa() {
-    this.dialog.open(TarefaDialogComponent).afterClosed().subscribe(() => {
-      this.items = this.projetoService.projetoAlteracao!.atividade!.map(ativ => ({ id: ativ.cdAtiv.toString(), title: ativ.nomeAtiv, start: new Date(ativ.dtInicioPrevista).getTime(), end: new Date(ativ.dtFimPrevista).getTime(), color: ativ.situacaoProj.cor }));
-      this.projetoService.atividadeAlteracao = undefined;
-    });
-  }
-
-  getStyle(status: number) {
-    return { backgroundColor: 'red' };
-  }
-
-  selectedChange(event: GanttSelectedEvent) {
-    var ganttItem = (event.selectedValue as GanttItem)
-    this.projetoService.atividadeAlteracao = this.projetoService.projetoAlteracao!.atividade!.find(atv => atv.cdAtiv.toString() == ganttItem.id);
-
-    this.dialog.open(TarefaDialogComponent)
-  }
-
-  // onBarClick(event: GanttBarClickEvent) {
-  // console.log('Barra clicada', event.item);
-  // aqui você faz o que quiser: abrir modal, navegar, etc.
-  // }
-}

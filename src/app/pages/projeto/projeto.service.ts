@@ -27,6 +27,14 @@ export class ProjetoService {
             });
     }
 
+    getHistoricoProjeto(cdProj: number): Observable<Projeto[]> {
+        return this.http
+            .get<Projeto[]>(`${environment.apiBaseUrl}${environment.endpoints.projeto.getHistorico}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa, cdProj }
+            });
+    }
+
     cadastrarAtividade(atividade: Atividade): Observable<Atividade> {
         return this.http.post<Atividade>(`${environment.apiBaseUrl}${environment.endpoints.atividade.cadastrar}`, atividade, {
             withCredentials: true,

@@ -38,6 +38,7 @@ export const environment = {
         },
         projeto: {
             getAll: '/projeto/getAll',
+            getHistorico: '/projeto/getHistorico',
             cadastrar: '/projeto/cadastrar',
             alterar: '/projeto/alterar',
         },
