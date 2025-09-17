@@ -30,12 +30,13 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './usuariosCadastro.component.scss',
 })
 export class UsuariosCadastroComponent {
-  private usuariosService = inject(UsuariosService);
+  public usuariosService = inject(UsuariosService);
   private perfilAcessoService = inject(PerfisAcessoService);
   private snackBar = inject(MatSnackBar);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('formComponent') formComponent!: FormComponent;
 
   public usuario?: Usuario;
   campos: Campo[] = [];
@@ -44,6 +45,7 @@ export class UsuariosCadastroComponent {
   constructor() {}
 
   ngOnInit(): void {
+    this.usuariosService.associacaoAlteracao = undefined;
     this.usuario = this.usuariosService.usuarioAlteracao;
 
     if (this.usuario)
@@ -51,7 +53,6 @@ export class UsuariosCadastroComponent {
         .getAssociacoes(this.usuariosService.usuarioAlteracao?.cdUsuario)
         .subscribe({
           next: (response) => {
-            console.log(response);
             this.dataSource.data = response;
           },
           error: (err) => {
@@ -70,6 +71,7 @@ export class UsuariosCadastroComponent {
         valor: this.usuario ? this.usuario.cdUsuario : undefined,
         obrigatorio: true,
         linha: 1,
+        readonly: this.usuario ? true : false,
       },
       {
         nome: 'senha',
@@ -93,7 +95,6 @@ export class UsuariosCadastroComponent {
             }))
           ),
           catchError((e: any) => {
-            console.log(e);
             this.snackBar.open('Erro ao buscar pessoas', 'Fechar', {
               duration: 3000,
               panelClass: ['snack-bar-failed'],
@@ -127,7 +128,6 @@ export class UsuariosCadastroComponent {
             }))
           ),
           catchError((e: any) => {
-            console.log(e);
             this.snackBar.open('Erro ao buscar empresas', 'Fechar', {
               duration: 3000,
               panelClass: ['snack-bar-failed'],
@@ -135,7 +135,6 @@ export class UsuariosCadastroComponent {
             return of([]);
           })
         ),
-        valor: this.usuariosService.associacaoAlteracao ? this.usuariosService.associacaoAlteracao.cdEmpresa : undefined,
       },
       {
         nome: 'cdPerfil',
@@ -151,7 +150,6 @@ export class UsuariosCadastroComponent {
             }))
           ),
           catchError((e: any) => {
-            console.log(e);
             this.snackBar.open('Erro ao buscar perfis', 'Fechar', {
               duration: 3000,
               panelClass: ['snack-bar-failed'],
@@ -159,21 +157,19 @@ export class UsuariosCadastroComponent {
             return of([]);
           })
         ),
-        valor: this.usuariosService.associacaoAlteracao ? this.usuariosService.associacaoAlteracao.cdPerfil : undefined,
       },
       {
         nome: 'dtValid',
         titulo: 'Data validade',
         tipo: TipoCampo.data,
-        valor: this.usuariosService.associacaoAlteracao ? this.usuariosService.associacaoAlteracao.dtValid : undefined,
         linha: 1,
       },
       {
         nome: 'ativo',
         titulo: 'Ativo',
         tipo: TipoCampo.toggle,
-        valor: this.usuariosService.associacaoAlteracao ? this.usuariosService.associacaoAlteracao.ativo : undefined,
         linha: 1,
+        valor: true,
       },
     ];
   }
@@ -282,7 +278,56 @@ export class UsuariosCadastroComponent {
   }
 
   onEdit(row: Associacao) {
-    console.log(row);
     this.usuariosService.associacaoAlteracao = row;
+    this.formComponent.patchForm({
+      cdEmpresa: row.cdEmpresa,
+      cdPerfil: row.cdPerfil,
+      dtValid: row.dtValid,
+      ativo: row.ativo,
+    });
+  }
+
+  clearForm() {
+    this.usuariosService.associacaoAlteracao = undefined;
+    this.formComponent.patchForm({
+      cdEmpresa: undefined,
+      cdPerfil: undefined,
+      dtValid: undefined,
+      ativo: true,
+    });
+  }
+
+  alterarAssociacao() {
+    if (!this.usuariosService.associacaoAlteracao) return;
+    const value = this.formComponent.form.value;
+    value.cdUsuario = this.usuariosService.usuarioAlteracao?.cdUsuario;
+    this.usuariosService.alterarAssociacao(value).subscribe({
+      next: (response: any) => {
+        this.snackBar.open('Associação alterada com sucesso!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['snack-bar-success'],
+        });
+        this.usuariosService
+          .getAssociacoes(this.usuariosService.usuarioAlteracao?.cdUsuario)
+          .subscribe({
+            next: (response) => {
+              this.dataSource.data = response;
+              this.clearForm();
+            },
+            error: (err) => {
+              this.snackBar.open('Erro ao buscar associações!', 'Fechar', {
+                duration: 3000,
+                panelClass: ['snack-bar-failed'],
+              });
+            },
+          });
+      },
+      error: (err: any) => {
+        this.snackBar.open('Erro ao alterar a associação!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['snack-bar-failed'],
+        });
+      },
+    });
   }
 }

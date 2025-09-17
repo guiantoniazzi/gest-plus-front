@@ -76,6 +76,16 @@ export class UsuariosService {
     );
   }
 
+  alterarAssociacao(associacao: Associacao): Observable<Associacao> {
+    return this.http.put<Associacao>(
+      `${environment.apiBaseUrl}${environment.endpoints.usuario.alterarAssociacao}`,
+      associacao,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
   getAssociacoes(cdUsuario: any): Observable<Associacao[]> {
     return this.http.get<Associacao[]>(
       `${environment.apiBaseUrl}${environment.endpoints.usuario.getAssociacoes}`,

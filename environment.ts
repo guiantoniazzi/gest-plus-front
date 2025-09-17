@@ -35,6 +35,7 @@ export const environment = {
             alterar: '/usuario/alterar',
             associar: '/usuario/associar',
             getAssociacoes: '/usuario/getAssociacoes',
+            alterarAssociacao: '/usuario/alterarAssociacao',
         },
         projeto: {
             getAll: '/projeto/getAll',

@@ -8,9 +8,16 @@
     [campos]="camposEmpresa"
     (submit)="associar($event)"
     *ngIf="this.usuario"
+    #formComponent
   >
     <div class="botoes">
-      <button mat-flat-button color="primary" type="submit">Enviar</button>
+      <button mat-flat-button color="primary" type="submit" *ngIf="!this.usuariosService.associacaoAlteracao">Associar</button>
+    </div>
+    <div class="botoes">
+      <button mat-flat-button color="primary" type="button" (click)="alterarAssociacao()" *ngIf="this.usuariosService.associacaoAlteracao">Alterar</button>
+    </div>
+    <div class="botoes">
+      <button mat-flat-button color="primary" type="button" (click)="clearForm()" *ngIf="this.usuariosService.associacaoAlteracao">Limpar</button>
     </div>
   </app-form>
   <div class="mat-elevation-z8">
