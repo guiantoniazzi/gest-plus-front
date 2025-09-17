@@ -225,8 +225,6 @@ export class TarefaDialogComponent {
   );
   displayedColumns = this.columns.map(c => c.columnDef);
 
-  alocacoesProjeto: any;
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
