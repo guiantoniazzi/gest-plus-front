@@ -33,6 +33,8 @@ export const environment = {
             getAll: '/usuario/getAll',
             cadastrar: '/usuario/cadastrar',
             alterar: '/usuario/alterar',
+            associar: '/usuario/associar',
+            getAssociacoes: '/usuario/getAssociacoes',
         },
         projeto: {
             getAll: '/projeto/getAll',
