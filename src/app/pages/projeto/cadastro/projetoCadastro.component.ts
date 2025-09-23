@@ -13,18 +13,23 @@ import { catchError, map, of } from "rxjs";
 import { Pessoa } from "../../../models/pessoa";
 import { Campo } from "../../../models/campo";
 import { SituacaoProj } from "../../../models/situacaoProj";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
 
 
 @Component({
   selector: 'app-projeto',
 
   imports: [
-    FormComponent
+    FormComponent,
+    MatButtonModule,
+    FormsModule
   ],
 
   templateUrl: './projetoCadastro.component.html',
 
   styleUrl: './projetoCadastro.component.scss',
+  host: { class: 'page' }
 
 })
 export class ProjetoCadastroComponent {
@@ -50,7 +55,7 @@ export class ProjetoCadastroComponent {
         titulo: 'Cliente',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1,
+        linha: 2,
         listaObservable: this.pessoasService.getClientes().pipe(
                   map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
                   catchError(() => {
@@ -69,7 +74,7 @@ export class ProjetoCadastroComponent {
         titulo: 'Tipo Projeto',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1,
+        linha: 2,
         lista: [{ label: 'Alocação', valor: 'A' }, { label: 'Projeto', valor: 'P' }],
       },
       {
@@ -77,7 +82,7 @@ export class ProjetoCadastroComponent {
         titulo: 'Responsável',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1
+        linha: 2
       },
       {
         nome: 'nomeProj',
@@ -85,7 +90,7 @@ export class ProjetoCadastroComponent {
         tipo: TipoCampo.texto,
         obrigatorio: true,
         maximo: 40,
-        linha: 2
+        linha: 1
       },
       {
         nome: 'idProjInterno',
@@ -93,14 +98,14 @@ export class ProjetoCadastroComponent {
         tipo: TipoCampo.texto,
         obrigatorio: true,
         maximo: 20,
-        linha: 2
+        linha: 1
       },
       {
         nome: 'idProjCliente',
         titulo: 'Identificação Cliente',
         tipo: TipoCampo.texto,
         maximo: 20,
-        linha: 2
+        linha: 1
       },
       {
         nome: 'dtInicioAvaliacao',
@@ -120,70 +125,70 @@ export class ProjetoCadastroComponent {
         titulo: 'Início Prevista',
         tipo: TipoCampo.data,
         obrigatorio: true,
-        linha: 3
+        linha: 4
       },
       {
         nome: 'dtFimPrevista',
         titulo: 'Fim Prevista',
         tipo: TipoCampo.data,
-        linha: 3
+        linha: 4
       },
       {
         nome: 'qtdHrProj',
         titulo: 'Qtd. Horas',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4
+        linha: 5
       },
       {
         nome: 'vlrHrProj',
         titulo: 'Valor Hora',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4
+        linha: 5
       },
       {
         nome: 'vlrBaseProj',
         titulo: 'Valor Base',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4
+        linha: 5
       },
       {
         nome: 'vlrDescontoComercial',
         titulo: 'Desconto Comercial',
         tipo: TipoCampo.texto,
-        linha: 5
+        linha: 6
       },
       {
         nome: 'vlrAcrescimoProjeto',
         titulo: 'Acréscimo Projeto',
         tipo: TipoCampo.texto,
-        linha: 5
+        linha: 6
       },
       {
         nome: 'vlrFinalProjeto',
         titulo: 'Valor Final',
         tipo: TipoCampo.texto,
-        linha: 5
+        linha: 6
       },
       {
         nome: 'dtInicioProj',
         titulo: 'Início Projeto',
         tipo: TipoCampo.data,
-        linha: 6
+        linha: 7
       },
       {
         nome: 'dtFimProj',
         titulo: 'Fim Projeto',
         tipo: TipoCampo.data,
-        linha: 6
+        linha: 7
       },
       {
         nome: 'vlrFaturado',
         titulo: 'Valor Faturado',
         tipo: TipoCampo.texto,
-        linha: 6
+        linha: 7
       },
       {
         // TODO: ENTENDER MELHOR ONDE ENFIAR ESSE CARAIO E PRA FICAR MAIS MELHOR PRO CARA MEXER DIRETO
@@ -191,7 +196,7 @@ export class ProjetoCadastroComponent {
         titulo: 'Situação',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 7,
+        linha: 1,
         listaObservable: this.projetoService.getSituacaoProj().pipe(
           map((response) => response.map((x: SituacaoProj) => ({ label: x.descSituacao, valor: x.cdSituacao }))),
           catchError(() => {

@@ -25,6 +25,8 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
+import { MatButtonModule } from "@angular/material/button";
+import { FormsModule } from "@angular/forms";
 
 
 @Component({
@@ -38,13 +40,15 @@ import { MatSortModule } from "@angular/material/sort";
     MatTableModule, 
     MatPaginatorModule,
     MatIconModule, 
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
 
   templateUrl: './projetoDetalhe.component.html',
 
   styleUrl: './projetoDetalhe.component.scss',
-
+  host: { class: 'page' }
 })
 export class ProjetoDetalheComponent {
   private projetoService = inject(ProjetoService);
@@ -117,7 +121,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Cliente',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1,
+        linha: 2,
         listaObservable: this.pessoasService.getClientes().pipe(
           map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
           catchError(() => {
@@ -137,7 +141,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Tipo Projeto',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1,
+        linha: 2,
         lista: [{ label: 'Alocação', valor: 'A' }, { label: 'Projeto', valor: 'P' }],
         valor: this.projetoService.projetoAlteracao?.tpProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
@@ -147,7 +151,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Responsável',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 1,
+        linha: 2,
         listaObservable: this.pessoasService.getFuncionarios(this.projetoService.projetoAlteracao?.cdCliente!).pipe(
           map((response) => response.map((x: Pessoa) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
           catchError(() => {
@@ -167,7 +171,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         obrigatorio: true,
         maximo: 40,
-        linha: 2,
+        linha: 1,
         valor: this.projetoService.projetoAlteracao?.nomeProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -177,7 +181,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         obrigatorio: true,
         maximo: 20,
-        linha: 2,
+        linha: 1,
         valor: this.projetoService.projetoAlteracao?.idProjInterno,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -186,7 +190,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Identificação Cliente',
         tipo: TipoCampo.texto,
         maximo: 20,
-        linha: 2,
+        linha: 1,
         valor: this.projetoService.projetoAlteracao?.idProjCliente,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -212,7 +216,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Início Prevista',
         tipo: TipoCampo.data,
         obrigatorio: true,
-        linha: 3,
+        linha: 4,
         valor: this.projetoService.projetoAlteracao?.dtInicioPrevista,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -220,7 +224,7 @@ export class ProjetoDetalheComponent {
         nome: 'dtFimPrevista',
         titulo: 'Fim Prevista',
         tipo: TipoCampo.data,
-        linha: 3,
+        linha: 4,
         valor: this.projetoService.projetoAlteracao?.dtFimPrevista,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -229,7 +233,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Qtd. Horas',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4,
+        linha: 5,
         valor: this.projetoService.projetoAlteracao?.qtdHrProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -238,7 +242,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Valor Hora',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4,
+        linha: 5,
         valor: this.projetoService.projetoAlteracao?.vlrHrProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -247,7 +251,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Valor Base',
         tipo: TipoCampo.texto,
         obrigatorio: true,
-        linha: 4,
+        linha: 5,
         valor: this.projetoService.projetoAlteracao?.vlrBaseProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -255,7 +259,7 @@ export class ProjetoDetalheComponent {
         nome: 'vlrDescontoComercial',
         titulo: 'Desconto Comercial',
         tipo: TipoCampo.texto,
-        linha: 5,
+        linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrDescontoComercial,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -263,7 +267,7 @@ export class ProjetoDetalheComponent {
         nome: 'vlrAcrescimoProjeto',
         titulo: 'Acréscimo Projeto',
         tipo: TipoCampo.texto,
-        linha: 5,
+        linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrAcrescimoProjeto,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -271,7 +275,7 @@ export class ProjetoDetalheComponent {
         nome: 'vlrFinalProjeto',
         titulo: 'Valor Final',
         tipo: TipoCampo.texto,
-        linha: 5,
+        linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrFinalProjeto,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -279,7 +283,7 @@ export class ProjetoDetalheComponent {
         nome: 'dtInicioProj',
         titulo: 'Início Projeto',
         tipo: TipoCampo.data,
-        linha: 6,
+        linha: 7,
         valor: this.projetoService.projetoAlteracao?.dtInicioProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -287,7 +291,7 @@ export class ProjetoDetalheComponent {
         nome: 'dtFimProj',
         titulo: 'Fim Projeto',
         tipo: TipoCampo.data,
-        linha: 6,
+        linha: 7,
         valor: this.projetoService.projetoAlteracao?.dtFimProj,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -295,7 +299,7 @@ export class ProjetoDetalheComponent {
         nome: 'vlrFaturado',
         titulo: 'Valor Faturado',
         tipo: TipoCampo.texto,
-        linha: 6,
+        linha: 7,
         valor: this.projetoService.projetoAlteracao?.vlrFaturado,
         readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
@@ -305,7 +309,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Situação',
         tipo: TipoCampo.select,
         obrigatorio: true,
-        linha: 7,
+        linha: 1,
         listaObservable: this.projetoService.getSituacaoProj().pipe(
           map((response) => response.map((x: SituacaoProj) => ({ label: x.descSituacao, valor: x.cdSituacao }))),
           catchError(() => {

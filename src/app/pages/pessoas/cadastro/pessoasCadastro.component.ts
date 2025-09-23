@@ -11,15 +11,20 @@ import { Funcionalidade } from "../../../enum/funcionalidade";
 import { map, catchError, of } from "rxjs";
 import { Campo } from "../../../models/campo";
 import { Cargo } from "../../../models/cargo";
+import { MatButtonModule } from "@angular/material/button";
+import { FormsModule } from "@angular/forms";
 
 
 @Component({
   selector: 'app-pessoasCadastro',
   imports: [
-    FormComponent
+    FormComponent,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './pessoasCadastro.component.html',
   styleUrl: './pessoasCadastro.component.scss',
+  host: { class: 'page' }
 })
 export class PessoasCadastroComponent {
   private pessoasService = inject(PessoasService);

@@ -8,12 +8,19 @@ import { catchError, map, of } from 'rxjs';
 import { Pessoa } from '../../../models/pessoa';
 import { PerfisAcessoService } from '../../perfisAcesso/perfisAcesso.service';
 import { PerfisAcesso } from '../../../models/perfisAcesso';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-usuariosCadastro',
-  imports: [FormComponent],
+  imports: [
+    FormComponent,
+    MatButtonModule,
+    FormsModule
+  ],
   templateUrl: './usuariosCadastro.component.html',
   styleUrl: './usuariosCadastro.component.scss',
+  host: { class: 'page' }
 })
 export class UsuariosCadastroComponent {
   private usuariosService = inject(UsuariosService);

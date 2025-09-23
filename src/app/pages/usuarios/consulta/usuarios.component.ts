@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { UsuariosService } from '../usuarios.service';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-usuarios',
@@ -21,10 +23,13 @@ import { UsuariosService } from '../usuarios.service';
     MatFormFieldModule, 
     MatInputModule, 
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.scss',
+  host: { class: 'page' }
 })
 export class UsuariosComponent implements AfterViewInit {
   private router = inject(Router);

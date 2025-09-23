@@ -10,7 +10,7 @@ import { map, catchError, of, filter } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PessoasService } from '../../../pessoas/pessoas.service';
 import { Pessoa } from '../../../../models/pessoa';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PessoaAtividade } from '../../../../models/pessoaAtividade';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { Atividade } from '../../../../models/atividade';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-tarefaDialog',
@@ -31,7 +32,9 @@ import { Atividade } from '../../../../models/atividade';
     MatTableModule, 
     MatPaginatorModule,
     MatIconModule, 
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './tarefaDialog.component.html',
   styleUrl: './tarefaDialog.component.scss',

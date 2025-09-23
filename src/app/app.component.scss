@@ -1,13 +1,14 @@
-$width-menu-lateral: 20vw;
+@use '../styles.scss' as styles;
+
 // Customize the entire app. Change :root to your selector if you want to scope the styles.
 
-.screen {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-}
+// .screen {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100vh;
+//     width: 100vw;
+//     padding: 0;
+// }
 
 .body {
     display: flex;
@@ -19,18 +20,26 @@ $width-menu-lateral: 20vw;
 }
 
 .sidenav {
-    width: $width-menu-lateral;
+    width: styles.$width-menu-lateral;
     background: #f4f4f4;
-
 }
 
-mat-nav-list a {
+.collapsed {
+    width: 60px !important;
+}
+
+.menu-item {
     display: flex;
-    align-items: center;
     gap: 10px;
-    text-decoration: none;
-    color: black;
 }
+
+// mat-nav-list a {
+//     display: flex;
+//     align-items: center;
+//     gap: 10px;
+//     text-decoration: none;
+//     color: black;
+// }
 
 mat-toolbar {
     display: flex;
@@ -40,16 +49,35 @@ mat-toolbar {
 }
 
 .logo {
-    width: $width-menu-lateral;
+    width: styles.$width-menu-lateral;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.example-container {
+    background-color: red;
 }
 
 .page-title {
     display: flex;
     justify-content: space-between;
     padding: 0 2vw 0 0vw;
-    width: 98vw - $width-menu-lateral;
+    width: 98vw - styles.$width-menu-lateral;
+}
+
+.page-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.empresa-selected {
+    gap: 20px;
+    display: flex;
+    align-items: flex-end;
+    width: 30vw;
 }
 
 .logo-image {
@@ -57,6 +85,12 @@ mat-toolbar {
     height: 40%;
     object-fit: contain;
     object-position: center;
+}
+
+.router-wrapper {
+    overflow-y: auto;
+    height: 100vh;
+    width: 100%;
 }
 
 ::ng-deep .snack-bar-success :first-child {

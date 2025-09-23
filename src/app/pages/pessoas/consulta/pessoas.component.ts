@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { PessoasService } from '../pessoas.service';
 import { Pessoa } from '../../../models/pessoa';
 import { PessoaAux } from '../../../models/pessoaAux';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pessoas',
@@ -21,10 +23,13 @@ import { PessoaAux } from '../../../models/pessoaAux';
     MatFormFieldModule, 
     MatInputModule, 
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './pessoas.component.html',
   styleUrl: './pessoas.component.scss',
+  host: { class: 'page' }
 })
 export class PessoasComponent implements AfterViewInit {
   private router = inject(Router);

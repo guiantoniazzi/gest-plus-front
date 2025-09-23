@@ -5,15 +5,20 @@ import { PerfisAcesso } from "../../../models/perfisAcesso";
 import { PerfisAcessoService } from "../perfisAcesso.service";
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { map } from "rxjs";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
 
 
 @Component({
   selector: 'app-perfisAcessoCadastro',
   imports: [
-    FormComponent
+    FormComponent,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './perfisAcessoCadastro.component.html',
   styleUrl: './perfisAcessoCadastro.component.scss',
+  host: { class: 'page' }
 })
 export class PerfisAcessoCadastroComponent {
   private perfisAcessoService = inject(PerfisAcessoService);
