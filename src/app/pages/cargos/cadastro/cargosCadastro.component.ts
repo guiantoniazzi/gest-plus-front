@@ -5,15 +5,20 @@ import { Cargo } from "../../../models/cargo";
 import { CargosService } from "../cargos.service";
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { map } from "rxjs";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
 
 
 @Component({
   selector: 'app-cargosCadastro',
   imports: [
-    FormComponent
+    FormComponent,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './cargosCadastro.component.html',
   styleUrl: './cargosCadastro.component.scss',
+  host: { class: 'page' }
 })
 export class CargosCadastroComponent {
   private cargosService = inject(CargosService);

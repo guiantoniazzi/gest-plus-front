@@ -1,18 +1,32 @@
+@use '../../../styles.scss' as styles;
+
 .screen {
     align-items: center;
     display: flex;
-    justify-content: center;
     width: 100vw;
     height: 100vh;
 }
 
-app-form {
-    width: 50vw;
-    height: 50vh;
-    border: 1px solid black;
+.direita {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(235, 242, 255);
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    width: 60vw;
 }
 
 .botoes {
     display: flex;
     justify-content: space-evenly;
+}
+
+.medium {
+    width: styles.$medium-width-button;
 }

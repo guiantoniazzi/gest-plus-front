@@ -14,7 +14,7 @@ import { AppComponent } from '../../app.component';
   standalone: true,
   imports: [FormsModule, MatButtonModule, FormComponent], // Importa o InputComponent e FormsModule
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 
 

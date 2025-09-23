@@ -12,6 +12,8 @@ import { ProjetoService } from '../projeto.service';
 import { Pessoa } from '../../../models/pessoa';
 import { PessoaAux } from '../../../models/pessoaAux';
 import { Projeto } from '../../../models/projeto';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-projeto',
@@ -22,10 +24,13 @@ import { Projeto } from '../../../models/projeto';
     MatFormFieldModule, 
     MatInputModule, 
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './projeto.component.html',
   styleUrl: './projeto.component.scss',
+  host: { class: 'page' }
 })
 export class ProjetoComponent implements AfterViewInit {
   private router = inject(Router);

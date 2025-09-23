@@ -8,6 +8,8 @@ import { catchError, map, of } from 'rxjs';
 import { Pessoa } from '../../../models/pessoa';
 import { PerfisAcessoService } from '../../perfisAcesso/perfisAcesso.service';
 import { PerfisAcesso } from '../../../models/perfisAcesso';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { Campo } from '../../../models/campo';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -20,6 +22,8 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-usuariosCadastro',
   imports: [
     FormComponent,
+    MatButtonModule,
+    FormsModule,
     CommonModule,
     MatPaginatorModule,
     MatSortModule,
@@ -28,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   templateUrl: './usuariosCadastro.component.html',
   styleUrl: './usuariosCadastro.component.scss',
+  host: { class: 'page' }
 })
 export class UsuariosCadastroComponent {
   public usuariosService = inject(UsuariosService);

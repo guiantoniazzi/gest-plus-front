@@ -1,44 +1,58 @@
 @use '@angular/material' as mat;
 @use '@worktile/gantt/styles/index.scss';
 
-$my-primary: mat.m2-define-palette((
-  100: #c0dfe1,
-  200: #9fcfd2,
-  300: #7ebfc3,
-  400: #65b1b5,
-  500: #45878d, // cor principal
-  600: #3c777d,
-  700: #35676c,
-  800: #2d565a,
-  900: #244346,
-  contrast: (
-    100: black,
-    200: black,
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-  )
-));
+$my-primary: mat.m2-define-palette((100: #c0dfe1,
+      200: #9fcfd2,
+      300: #7ebfc3,
+      400: #65b1b5,
+      500: #45878d, // cor principal
+      600: #3c777d,
+      700: #35676c,
+      800: #2d565a,
+      900: #244346,
+      contrast: (100: black,
+        200: black,
+        300: white,
+        400: white,
+        500: white,
+        600: white,
+        700: white,
+        800: white,
+        900: white,
+      )));
 
-$light-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: mat.m2-define-palette(mat.$m2-green-palette),
-    warn: mat.m2-define-palette(mat.$m2-red-palette),
-  )
-));
+$light-theme: mat.m2-define-light-theme((color: (primary: $my-primary,
+        accent: mat.m2-define-palette(mat.$m2-green-palette),
+        warn: mat.m2-define-palette(mat.$m2-red-palette),
+      )));
 
 @include mat.all-component-themes($light-theme);
 
 // THEME ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-html { height: 100%; }
+$medium-width-button: 15vw;
+
+$width-menu-lateral: 18vw;
+
+
+html {
+  height: 100%;
+}
 
 body {
-    height: 100%;
-    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow-y: hidden;
+}
+
+.page {
+  width: 100%;
+  padding: 0 1% 1% 1%;
+}
+
+.actions-consulta {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2vw;
 }

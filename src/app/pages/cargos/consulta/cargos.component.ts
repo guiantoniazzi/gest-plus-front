@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { CargosService } from '../cargos.service';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-cargos',
@@ -21,10 +23,13 @@ import { CargosService } from '../cargos.service';
     MatFormFieldModule, 
     MatInputModule, 
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './cargos.component.html',
   styleUrl: './cargos.component.scss',
+  host: { class: 'page' }
 })
 export class CargosComponent implements AfterViewInit {
   private router = inject(Router);

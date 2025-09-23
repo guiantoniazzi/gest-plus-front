@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { PerfisAcessoService } from '../perfisAcesso.service';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-perfisAcesso',
@@ -21,10 +23,13 @@ import { PerfisAcessoService } from '../perfisAcesso.service';
     MatFormFieldModule, 
     MatInputModule, 
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './perfisAcesso.component.html',
   styleUrl: './perfisAcesso.component.scss',
+  host: { class: 'page' }
 })
 export class PerfisAcessoComponent implements AfterViewInit {
   private router = inject(Router);

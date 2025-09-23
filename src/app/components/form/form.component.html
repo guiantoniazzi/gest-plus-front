@@ -4,7 +4,7 @@
 
     <!-- Agrupando os campos por linha -->
     <div *ngFor="let linha of linhas">
-        <div class="linha" style="display: flex; gap: 16px;">
+        <div class="linha">
             <div *ngFor="let campo of linha">
                 <!-- Campo invisível -->
                 <input [id]="campo.nome" *ngIf="campo.invisivel" [formControlName]="campo.nome" type="hidden" #controle>

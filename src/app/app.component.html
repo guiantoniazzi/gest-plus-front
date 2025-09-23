@@ -1,25 +1,32 @@
 <div class="screen">
   <mat-toolbar *ngIf="telasSemMenu">
     <div class="logo">
+      <button mat-icon-button (click)="drawerClick()">
+        <mat-icon color="primary">menu</mat-icon>
+      </button>
       <img src="../assets/images/logo.png" class="logo-image" />
     </div>
     <div class="page-title">
-      <span>{{ page }}</span>
-      <mat-label>Empresa em uso</mat-label>
-      <mat-select [(ngModel)]="authService.empresaSelected" *ngIf="empresas" (selectionChange)="changeEmpresa($event)">
-        <mat-option *ngFor="let item of empresas" [value]="item">
-            {{ item.nomeEmpresa }}
-        </mat-option>
-      </mat-select>
+      <div class="page-info">
+        <span>{{ page }}</span>
+        <div class="empresa-selected">
+          <mat-label>Empresa em uso</mat-label>
+          <mat-select [(ngModel)]="authService.empresaSelected" *ngIf="empresas" (selectionChange)="changeEmpresa($event)">
+            <mat-option *ngFor="let item of empresas" [value]="item">
+              {{ item.nomeEmpresa }}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
       <div>
-        <button mat-icon-button>
-          <mat-icon color="primary" (click)="logout()">logout</mat-icon>
+        <button mat-icon-button (click)="logout()">
+          <mat-icon color="primary">logout</mat-icon>
         </button>
       </div>
     </div>
   </mat-toolbar>
   <div class="body" *ngIf="telasSemMenu">
-    <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav-container class="sidenav-container" [ngClass]="{ collapsed: collapsed }">
       <mat-sidenav mode="side" opened class="sidenav">
         <mat-nav-list>
           <ng-container *ngFor="let rota of rotas">
@@ -29,14 +36,22 @@
               [routerLink]="rota.link"
               routerLinkActive="active-link"
             >
-              <mat-icon color="primary">{{ rota.icon }}</mat-icon>
-              {{ rota.label }}
+              <div class="menu-item">
+                <mat-icon color="primary">{{ rota.icon }}</mat-icon>
+                <span matLine *ngIf="!collapsed">
+                  {{ rota.label }}
+                </span>
+              </div>
             </a>
           </ng-container>
         </mat-nav-list>
       </mat-sidenav>
     </mat-sidenav-container>
-    <router-outlet style="padding: 1%"></router-outlet>
+    <div class="router-wrapper">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-  <router-outlet *ngIf="!telasSemMenu"></router-outlet>
+  <div class="router-wrapper">
+    <router-outlet *ngIf="!telasSemMenu"></router-outlet>
+  </div>
 </div>

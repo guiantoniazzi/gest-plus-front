@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -10,7 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DEFAULT_ROTAS, Rotas } from './models/rotas';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { AuthService } from './guard/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,8 +41,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class AppComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
 
+  @ViewChild(MatDrawer) drawer!: MatDrawer;
+
   telasSemMenu = true;
   isDarkMode = false;
+  collapsed = false;
 
   rotas: Rotas[] = DEFAULT_ROTAS.filter(
     (rota) => rota.visivel
@@ -56,7 +59,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, public authService: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.page = this.rotas.find((rota) => rota.link == event.url)?.label!;
+        this.page = DEFAULT_ROTAS.find((rota) => rota.link == event.url)?.label!;
         const noBarRoutes = ['/', '/login'];
         this.telasSemMenu = !noBarRoutes.includes(event.urlAfterRedirects);
 
@@ -90,5 +93,9 @@ export class AppComponent implements OnInit {
     if(!this.authService.verificaRedirect(this.router.url)) {
       this.router.navigate(['home']);
     }
+  }
+
+  drawerClick() {
+    this.collapsed = !this.collapsed;
   }
 }
