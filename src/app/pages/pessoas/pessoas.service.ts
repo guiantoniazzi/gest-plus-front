@@ -48,6 +48,14 @@ export class PessoasService {
             });
     }
 
+    getEmpresasAdm(): Observable<Pessoa[]> {
+        return this.http
+            .get<Pessoa[]>(`${environment.apiBaseUrl}${environment.endpoints.pessoas.getEmpresasAdm}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa }
+            });
+    }
+
     getCargos(): Observable<Cargo[]> {
         return this.http
             .get<Cargo[]>(`${environment.apiBaseUrl}${environment.endpoints.cargo.getAll}`, {

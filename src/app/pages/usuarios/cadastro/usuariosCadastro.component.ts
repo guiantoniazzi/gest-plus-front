@@ -120,7 +120,7 @@ export class UsuariosCadastroComponent {
         tipo: TipoCampo.select,
         obrigatorio: true,
         linha: 1,
-        listaObservable: this.usuariosService.getEmpresas().pipe(
+        listaObservable: this.usuariosService.getEmpresasAdm().pipe(
           map((response) =>
             response.map((x: Pessoa) => ({
               label: x.pessoaAux.nome,
@@ -247,29 +247,35 @@ export class UsuariosCadastroComponent {
   }
 
   associar(value: any): void {
-    value.cdUsuario = this.usuariosService.usuarioAlteracao?.cdUsuario;
+    console.log(this.usuario);
+
+    // Definir cdUsuario corretamente
+    value.cdUsuario = this.usuariosService.usuarioAlteracao
+      ? this.usuariosService.usuarioAlteracao.cdUsuario
+      : this.usuario?.cdUsuario;
+
     this.usuariosService.associarEmpresa(value).subscribe({
-      next: (response) => {
-        this.snackBar.open('Usuario associado com sucesso!', 'Fechar', {
+      next: () => {
+        this.snackBar.open('Usuário associado com sucesso!', 'Fechar', {
           duration: 3000,
           panelClass: ['snack-bar-success'],
         });
-        this.usuariosService
-          .getAssociacoes(this.usuariosService.usuarioAlteracao?.cdUsuario)
-          .subscribe({
-            next: (response) => {
-              this.dataSource.data = response;
-            },
-            error: (err) => {
-              this.snackBar.open('Erro ao buscar associações!', 'Fechar', {
-                duration: 3000,
-                panelClass: ['snack-bar-failed'],
-              });
-            },
-          });
+
+        // Atualizar a lista de associações
+        this.usuariosService.getAssociacoes(value.cdUsuario).subscribe({
+          next: (response) => {
+            this.dataSource.data = response;
+          },
+          error: () => {
+            this.snackBar.open('Erro ao buscar associações!', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed'],
+            });
+          },
+        });
       },
-      error: (err) => {
-        this.snackBar.open('Erro ao associar o usuario!', 'Fechar', {
+      error: () => {
+        this.snackBar.open('Erro ao associar o usuário!', 'Fechar', {
           duration: 3000,
           panelClass: ['snack-bar-failed'],
         });

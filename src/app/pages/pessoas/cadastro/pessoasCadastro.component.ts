@@ -40,6 +40,24 @@ export class PessoasCadastroComponent {
         valor: this.pessoasService.pessoaAlteracao?.cdPessoa,
         invisivel: true,
       },
+      {
+        nome: 'cdEmpresa',
+        titulo: 'Empresa cadastrar',
+        tipo: TipoCampo.select,
+        valor: this.pessoasService.pessoaAlteracao?.pessoaAux?.cdEmpresa,
+        invisivel: this.authService.getLogin().cdUsuario !== "ADMIN",
+        linha: 1,
+        listaObservable: this.pessoasService.getEmpresasAdm().pipe(
+          map((response) => response.map((x: any) => ({ label: x.pessoaAux.nome, valor: x.cdPessoa }))),
+          catchError(() => {
+            this.snackBar.open('Erro ao buscar empresas', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed']
+            });
+            return of([]);
+          })
+        ),
+      },
       // {
       //   nome: 'empresaUsuario',
       //   titulo: 'Em qual empresa deseja realizar a ação?',

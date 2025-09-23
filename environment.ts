@@ -14,7 +14,7 @@ export const environment = {
             alterar: '/pessoas/alterar',
             getMeusFuncionarios: '/pessoas/getMeusFuncionarios',
             getPessoas: '/pessoas/getPessoas',
-            getEmpresas: '/pessoas/getEmpresas',
+            getEmpresasAdm: '/pessoas/getEmpresasAdm',
         },
         perfisAcesso: {
             cadastrar: '/perfisAcesso/cadastrar',
