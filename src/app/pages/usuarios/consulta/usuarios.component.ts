@@ -70,7 +70,7 @@ export class UsuariosComponent implements AfterViewInit {
     {
       columnDef: 'qtdEmpresas',
       header: 'Quantidade de empresas',
-      cell: (e: Usuario) => `${e.qtdEmpresas}`,
+      cell: (e: Usuario) => `${e.empresas.length}`,
     },
     {
       columnDef: 'ativo',
@@ -80,7 +80,7 @@ export class UsuariosComponent implements AfterViewInit {
     {
       columnDef: 'validade',
       header: 'Validade',
-      cell: (e: Usuario) => `${e.dtValid}`,
+      cell: (e: Usuario) => `${e.dtValid || ''}`,
     },
     {
       columnDef: 'funcoes',
