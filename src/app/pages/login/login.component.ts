@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environment';
 import { AuthService } from '../../guard/auth.service';
 import { AppComponent } from '../../app.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent {
 
   private http = inject(HttpClient);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   campos = [
     {
@@ -53,10 +55,11 @@ export class LoginComponent {
         this.appComponent.carregarEmpresas();
         this.router.navigate(['home']);
       },
-      error(err) {
-        console.error(err);
-        alert('Usuário ou senha inválidos!');
-        // this.router.navigate(['/login']);
+      error: (err) => {
+        this.snackBar.open('Usuário ou senha inválidos!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['snack-bar-failed']
+        });
       },
     });
   }
