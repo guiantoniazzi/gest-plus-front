@@ -28,9 +28,9 @@ export class UsuariosService {
     );
   }
 
-  getEmpresas(): Observable<Pessoa[]> {
+  getEmpresasAdm(): Observable<Pessoa[]> {
     return this.http.get<Pessoa[]>(
-      `${environment.apiBaseUrl}${environment.endpoints.pessoas.getEmpresas}`,
+      `${environment.apiBaseUrl}${environment.endpoints.pessoas.getEmpresasAdm}`,
       {
         withCredentials: true,
       }
