@@ -60,6 +60,9 @@
                 <mat-form-field *ngIf="!campo.invisivel && campo.tipo == 7 && verificarCondicao(campo.condicao)" appearance="fill">
                     <mat-label>{{ campo.titulo }}</mat-label>
                     <mat-select [id]="campo.nome" [formControlName]="campo.nome" #controle (selectionChange)="campo.change ? callDynamicChange($event, campo) : null">
+                        <mat-option>
+                            <ngx-mat-select-search [formControlName]="'filtro'+campo.nome" placeholderLabel="Pesquisar..." noEntriesFoundLabel="Nenhum resultado encontrado"></ngx-mat-select-search>
+                        </mat-option>
                         <mat-option *ngFor="let item of campo.listaObservable | async" [value]="item.valor">
                             {{ item.label }}
                         </mat-option>

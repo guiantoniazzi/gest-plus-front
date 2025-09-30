@@ -28,12 +28,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { IMask } from 'angular-imask';
 import { Campo } from '../../models/campo';
 import { TipoCampo } from '../../enum/tipoCampo';
-import { isObservable, of } from 'rxjs';
+import { isObservable, map, of, startWith, switchMap } from 'rxjs';
 import { ValidacaoCampo } from '../../enum/validacaoCampo';
 import { AuthService } from '../../guard/auth.service';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { PessoasService } from '../../pages/pessoas/pessoas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 export const MY_DATE_FORMATS = {
     parse: {
@@ -60,7 +61,8 @@ export const MY_DATE_FORMATS = {
         MatNativeDateModule,
         MatCheckboxModule,
         MatSelectModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        NgxMatSelectSearchModule
     ],
     templateUrl: './form.component.html',
     styleUrl: './form.component.scss',
@@ -149,6 +151,23 @@ export class FormComponent implements OnInit, AfterViewInit {
                     campo.nome,
                     this.fb.control(campo.valor || '', validators)
                 );
+                if(campo.tipo === TipoCampo.select && campo.listaObservable) {
+                    // Adiciona um FormControl para o filtro do select
+                    this.form.addControl('filtro'+campo.nome, this.fb.control(''));
+
+                    // Aplica o filtro à listaObservable
+                    const originalLista$ = campo.listaObservable;
+                    campo.listaObservable = this.form.get('filtro'+campo.nome)!.valueChanges.pipe(
+                        // Inicia com o valor atual do filtro
+                        startWith(''),
+                        // Aplica o filtro
+                        switchMap(filtro => {
+                            return originalLista$.pipe(
+                                map(lista => lista.filter(item => item.label.toLowerCase().includes(filtro.toLowerCase())))
+                            );
+                        })
+                    );
+                }
             });
             this.agruparCamposPorLinha();
         }
