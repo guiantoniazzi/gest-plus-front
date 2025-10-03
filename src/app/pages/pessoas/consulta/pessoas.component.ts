@@ -13,6 +13,8 @@ import { Pessoa } from '../../../models/pessoa';
 import { PessoaAux } from '../../../models/pessoaAux';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { Funcionalidade } from '../../../enum/funcionalidade';
+import { AuthService } from '../../../guard/auth.service';
 
 @Component({
   selector: 'app-pessoas',
@@ -34,6 +36,7 @@ import { FormsModule } from '@angular/forms';
 export class PessoasComponent implements AfterViewInit {
   private router = inject(Router);
   private pessoasService = inject(PessoasService);
+  private authService = inject(AuthService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -114,5 +117,26 @@ export class PessoasComponent implements AfterViewInit {
   novo(): void {
     this.pessoasService.pessoaAlteracao = undefined;
     this.router.navigate([`/pessoas/cadastro`]);
+  }
+
+  verificaPermissaoGerenciar(pessoa?: Pessoa): boolean {
+    if(pessoa && pessoa.pessoaAux.cliente) {
+      return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar cliente']); 
+    }
+    else if(pessoa && pessoa.funcionarioCliente) {
+      return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar funcionário cliente']); 
+    }
+    else if(pessoa && pessoa.pessoaAux.empresa) {
+      return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar empresa consultoria']); 
+    }
+    else if(pessoa) {
+      return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar pessoa']); 
+    }
+    else {
+      return (this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar cliente']) ||
+      this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar funcionário cliente']) ||
+      this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar empresa consultoria']) ||
+      this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar pessoa']));
+    }
   }
 }

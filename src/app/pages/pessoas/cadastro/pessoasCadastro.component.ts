@@ -134,7 +134,7 @@ export class PessoasCadastroComponent {
       },
       {
         nome: 'meuFunc',
-        titulo: 'Meu funcionário',
+        titulo: `Funcionário ${this.authService.empresaSelected.nomeEmpresa}`,
         tipo: TipoCampo.toggle,
         valor: !this.pessoasService.pessoaAlteracao?.pessoaAux.cliente && !this.pessoasService.pessoaAlteracao?.pessoaAux.cliente,
         linha: 4,

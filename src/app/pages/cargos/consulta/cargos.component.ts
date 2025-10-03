@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { CargosService } from '../cargos.service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { Funcionalidade } from '../../../enum/funcionalidade';
+import { AuthService } from '../../../guard/auth.service';
 
 @Component({
   selector: 'app-cargos',
@@ -34,6 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class CargosComponent implements AfterViewInit {
   private router = inject(Router);
   private cargosService = inject(CargosService);
+  private authService = inject(AuthService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -103,5 +106,9 @@ export class CargosComponent implements AfterViewInit {
   novo(): void {
     this.cargosService.cargoAlteracao = undefined;
     this.router.navigate([`/cargos/cadastro`]);
+  }
+
+  verificaPermissaoGerenciar(): boolean {
+    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar cargo']); 
   }
 }

@@ -3,7 +3,7 @@
     <mat-tab label="Dados Básicos">
       <app-form [campos]="campos" (submit)="envio($event)">
         <div class="botoes">
-          <button mat-flat-button color="primary" type="submit">
+          <button mat-flat-button color="primary" type="submit" [disabled]="!verificaPermissaoGerenciar()">
             Enviar
           </button>
         </div>
@@ -11,7 +11,7 @@
     </mat-tab>
     <mat-tab label="Cronograma">
       <div>
-        <button mat-flat-button color="primary" (click)="abrirModalTarefa()">
+        <button mat-flat-button color="primary" (click)="abrirModalTarefa()" [disabled]="!verificaPermissaoGerenciar()">
           Nova tarefa
         </button>
       </div>

@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { PerfisAcessoService } from '../perfisAcesso.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { Funcionalidade } from '../../../enum/funcionalidade';
+import { AuthService } from '../../../guard/auth.service';
 
 @Component({
   selector: 'app-perfisAcesso',
@@ -34,6 +36,7 @@ import { FormsModule } from '@angular/forms';
 export class PerfisAcessoComponent implements AfterViewInit {
   private router = inject(Router);
   private perfisAcessoService = inject(PerfisAcessoService);
+  private authService = inject(AuthService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -119,5 +122,9 @@ export class PerfisAcessoComponent implements AfterViewInit {
   novo(): void {
     this.perfisAcessoService.perfilAlteracao = undefined;
     this.router.navigate([`/perfis-acesso/cadastro`]);
+  }
+
+  verificaPermissaoGerenciar(): boolean {
+    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar perfil de acesso']); 
   }
 }

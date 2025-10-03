@@ -14,6 +14,8 @@ import { PessoaAux } from '../../../models/pessoaAux';
 import { Projeto } from '../../../models/projeto';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { Funcionalidade } from '../../../enum/funcionalidade';
+import { AuthService } from '../../../guard/auth.service';
 
 @Component({
   selector: 'app-projeto',
@@ -35,6 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class ProjetoComponent implements AfterViewInit {
   private router = inject(Router);
   private projetoService = inject(ProjetoService);
+  private authService = inject(AuthService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -102,5 +105,9 @@ export class ProjetoComponent implements AfterViewInit {
   novo(): void {
     this.projetoService.projetoAlteracao = undefined;
     this.router.navigate([`/projeto/cadastro`]);
+  }
+
+  verificaPermissaoGerenciar(): boolean {
+    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto']); 
   }
 }

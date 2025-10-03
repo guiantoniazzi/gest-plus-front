@@ -134,7 +134,7 @@ export class ProjetoDetalheComponent {
         ),
         valor: this.projetoService.projetoAlteracao?.cdCliente,
         change: 'changeCliente($event)',
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'tpProj',
@@ -144,7 +144,7 @@ export class ProjetoDetalheComponent {
         linha: 2,
         lista: [{ label: 'Alocação', valor: 'A' }, { label: 'Projeto', valor: 'P' }],
         valor: this.projetoService.projetoAlteracao?.tpProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'cdRespProj',
@@ -163,7 +163,7 @@ export class ProjetoDetalheComponent {
           })
         ),
         valor: this.projetoService.projetoAlteracao?.cdRespProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'nomeProj',
@@ -173,7 +173,7 @@ export class ProjetoDetalheComponent {
         maximo: 40,
         linha: 1,
         valor: this.projetoService.projetoAlteracao?.nomeProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'idProjInterno',
@@ -183,7 +183,7 @@ export class ProjetoDetalheComponent {
         maximo: 20,
         linha: 1,
         valor: this.projetoService.projetoAlteracao?.idProjInterno,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'idProjCliente',
@@ -192,7 +192,7 @@ export class ProjetoDetalheComponent {
         maximo: 20,
         linha: 1,
         valor: this.projetoService.projetoAlteracao?.idProjCliente,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtInicioAvaliacao',
@@ -201,7 +201,7 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 3,
         valor: this.projetoService.projetoAlteracao?.dtInicioAvaliacao,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtInicioNegociacao',
@@ -209,7 +209,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.data,
         linha: 3,
         valor: this.projetoService.projetoAlteracao?.dtInicioNegociacao,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtInicioPrevista',
@@ -218,7 +218,7 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 4,
         valor: this.projetoService.projetoAlteracao?.dtInicioPrevista,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtFimPrevista',
@@ -226,7 +226,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.data,
         linha: 4,
         valor: this.projetoService.projetoAlteracao?.dtFimPrevista,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'qtdHrProj',
@@ -235,7 +235,7 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 5,
         valor: this.projetoService.projetoAlteracao?.qtdHrProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrHrProj',
@@ -244,7 +244,7 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 5,
         valor: this.projetoService.projetoAlteracao?.vlrHrProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrBaseProj',
@@ -253,7 +253,7 @@ export class ProjetoDetalheComponent {
         obrigatorio: true,
         linha: 5,
         valor: this.projetoService.projetoAlteracao?.vlrBaseProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrDescontoComercial',
@@ -261,7 +261,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrDescontoComercial,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrAcrescimoProjeto',
@@ -269,7 +269,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrAcrescimoProjeto,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrFinalProjeto',
@@ -277,7 +277,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         linha: 6,
         valor: this.projetoService.projetoAlteracao?.vlrFinalProjeto,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtInicioProj',
@@ -285,7 +285,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.data,
         linha: 7,
         valor: this.projetoService.projetoAlteracao?.dtInicioProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'dtFimProj',
@@ -293,7 +293,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.data,
         linha: 7,
         valor: this.projetoService.projetoAlteracao?.dtFimProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         nome: 'vlrFaturado',
@@ -301,7 +301,7 @@ export class ProjetoDetalheComponent {
         tipo: TipoCampo.texto,
         linha: 7,
         valor: this.projetoService.projetoAlteracao?.vlrFaturado,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
         // TODO: ENTENDER MELHOR ONDE ENFIAR ESSE CARAIO E PRA FICAR MAIS MELHOR PRO CARA MEXER DIRETO
@@ -321,7 +321,7 @@ export class ProjetoDetalheComponent {
           })
         ),
         valor: this.projetoService.projetoAlteracao?.idSituacaoProj,
-        readonly: this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
+        readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
     ];
   }
@@ -430,8 +430,7 @@ export class ProjetoDetalheComponent {
       this.dialog.open(TarefaDialogComponent)
     }
 
-    // onBarClick(event: GanttBarClickEvent) {
-    // console.log('Barra clicada', event.item);
-    // aqui você faz o que quiser: abrir modal, navegar, etc.
-    // }
+    verificaPermissaoGerenciar(): boolean {
+    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto']); 
+    }
   }

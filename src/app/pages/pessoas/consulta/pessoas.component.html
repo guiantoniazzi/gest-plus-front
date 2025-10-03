@@ -4,7 +4,7 @@
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   
-  <button mat-flat-button color="primary" (click)="novo()">
+  <button mat-flat-button color="primary" (click)="novo()" [disabled]="!verificaPermissaoGerenciar()">
     NOVO <mat-icon>add</mat-icon>
   </button>
 </div>
@@ -22,7 +22,7 @@
           <mat-icon *ngIf="!column.cell(row)" color="warn">cancel</mat-icon>
         </ng-container>
         <ng-container *ngIf="column.columnDef === 'funcoes'">
-          <button mat-icon-button color="primary" (click)="onEdit(row)">
+          <button mat-icon-button color="primary" (click)="onEdit(row)" [disabled]="!verificaPermissaoGerenciar(row)">
             <mat-icon>edit</mat-icon>
           </button>
         </ng-container>
