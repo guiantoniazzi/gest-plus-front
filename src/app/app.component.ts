@@ -89,9 +89,14 @@ export class AppComponent implements OnInit {
   
   changeEmpresa(event: MatSelectChange) {
     this.authService.empresaSelected = event.value;
-    this.router.navigate([this.router.url]);
     if(!this.authService.verificaRedirect(this.router.url)) {
       this.router.navigate(['home']);
+    }
+    else {
+      var url = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([url]);
+      });
     }
   }
 
