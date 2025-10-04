@@ -18,6 +18,8 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { Empresa } from './models/permissoesLogin';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +42,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 })
 export class AppComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
+  private http = inject(HttpClient);
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
 
@@ -72,6 +75,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.carregarEmpresas();
+    this.verificarToken();
   }
 
   logout() {
@@ -102,5 +106,19 @@ export class AppComponent implements OnInit {
 
   drawerClick() {
     this.collapsed = !this.collapsed;
+  }
+
+  verificarToken() {
+    this.http.get(`${environment.apiBaseUrl}${environment.endpoints.login.verificarToken}`, {withCredentials: true}).subscribe({
+      next: (value: any) => {
+        this.authService.setLogin(value);
+      },
+      error: (err) => {
+        this.snackBar.open('Usuário ou senha inválidos!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['snack-bar-failed']
+        });
+      },
+    });
   }
 }

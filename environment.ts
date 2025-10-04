@@ -5,6 +5,7 @@ export const environment = {
     endpoints: {
         login: {
             autenticar: '/login/autenticar',
+            verificarToken: '/login/verificarToken',
         },
         pessoas: {
             getAll: '/pessoas/getAll',
