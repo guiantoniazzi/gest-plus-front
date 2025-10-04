@@ -15,6 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { Funcionalidade } from '../../../enum/funcionalidade';
 import { AuthService } from '../../../guard/auth.service';
+import { FormComponent } from '../../../components/form/form.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-pessoas',
@@ -27,7 +30,9 @@ import { AuthService } from '../../../guard/auth.service';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   templateUrl: './pessoas.component.html',
   styleUrl: './pessoas.component.scss',
@@ -45,6 +50,7 @@ export class PessoasComponent implements AfterViewInit {
     this.pessoasService.getPessoas().subscribe({
       next: (value: Pessoa[]) => {
         this.dataSource.data = value;
+        this.listPessoas = value;
       },
       error(err) {
         console.error(err);
@@ -52,28 +58,6 @@ export class PessoasComponent implements AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    // this.dataSource.filterPredicate = (data: PerfisAcesso, filter: string) => {
-    //   const dataStr = `${data.nomePerfil} ${data.funcoes.length}`;
-    //   return dataStr.toLowerCase().includes(filter);
-    // };
-
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'descricao':
-          return ''//item.nomePerfil.toLowerCase();
-        case 'quantidadeFuncoes':
-          return ''//item.funcoes.length;
-        default:
-          return (item as any)[property];
-      }
-    };
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
   
   columns = [
     {
@@ -98,7 +82,42 @@ export class PessoasComponent implements AfterViewInit {
     }
   ];
   dataSource: MatTableDataSource<Pessoa> = new MatTableDataSource<Pessoa>([]);
+  listPessoas: Pessoa[] = [];
   displayedColumns = this.columns.map(c => c.columnDef);
+  
+  tipoPessoaList: {label: string, valor: Funcionalidade}[] = [];
+  tipoPessoaSelected: Funcionalidade[] = [];
+
+  ngOnInit() {
+    if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar cliente'])) {
+      this.tipoPessoaList.push({label: 'Cliente', valor: Funcionalidade['Consultar cliente']});
+    }
+    if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar funcionário cliente'])) {
+      this.tipoPessoaList.push({label: 'Funcionário cliente', valor: Funcionalidade['Consultar funcionário cliente']});
+    }
+    if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar empresa consultoria'])) {
+      this.tipoPessoaList.push({label: 'Empresa consultoria', valor: Funcionalidade['Consultar empresa consultoria']});
+    }
+    if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar pessoa'])) {
+      this.tipoPessoaList.push({label: 'Pessoa', valor: Funcionalidade['Consultar pessoa']});
+    }
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'descricao':
+          return ''//item.nomePerfil.toLowerCase();
+        case 'quantidadeFuncoes':
+          return ''//item.funcoes.length;
+        default:
+          return (item as any)[property];
+      }
+    };
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -138,5 +157,28 @@ export class PessoasComponent implements AfterViewInit {
       this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar empresa consultoria']) ||
       this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar pessoa']));
     }
+  }
+
+  changeTipoPessoa(event: MatSelectChange) {
+    if(event.value.length === 0) {
+      this.dataSource.data = this.listPessoas;
+      return;
+    }
+
+    this.dataSource.data = this.listPessoas.filter(p => {
+      if(p.pessoaAux.cliente && this.tipoPessoaSelected.includes(Funcionalidade['Consultar cliente'])) {
+        return true;
+      }
+      else if(p.funcionarioCliente && this.tipoPessoaSelected.includes(Funcionalidade['Consultar funcionário cliente'])) {
+        return true;
+      }
+      else if(p.pessoaAux.empresa && this.tipoPessoaSelected.includes(Funcionalidade['Consultar empresa consultoria'])) {
+        return true;
+      }
+      else if(!p.pessoaAux.cliente && !p.funcionarioCliente && !p.pessoaAux.empresa && this.tipoPessoaSelected.includes(Funcionalidade['Consultar pessoa'])) {
+        return true;
+      }  
+      return false;
+    });
   }
 }
