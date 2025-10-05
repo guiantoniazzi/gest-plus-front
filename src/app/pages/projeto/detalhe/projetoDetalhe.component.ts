@@ -208,7 +208,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Início Negociação',
         tipo: TipoCampo.data,
         linha: 3,
-        valor: this.projetoService.projetoAlteracao?.dtInicioNegociacao,
+        valor: this.projetoService.projetoAlteracao?.dtInicioNegociacao?.toString() !== '0000-00-00' ? this.projetoService.projetoAlteracao?.dtInicioNegociacao : undefined,
         readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
@@ -225,7 +225,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Fim Prevista',
         tipo: TipoCampo.data,
         linha: 4,
-        valor: this.projetoService.projetoAlteracao?.dtFimPrevista,
+        valor: this.projetoService.projetoAlteracao?.dtFimPrevista?.toString() !== '0000-00-00' ? this.projetoService.projetoAlteracao?.dtFimPrevista : undefined,
         readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
@@ -284,7 +284,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Início Projeto',
         tipo: TipoCampo.data,
         linha: 7,
-        valor: this.projetoService.projetoAlteracao?.dtInicioProj,
+        valor: this.projetoService.projetoAlteracao?.dtInicioProj?.toString() !== '0000-00-00' ? this.projetoService.projetoAlteracao?.dtInicioProj : undefined,
         readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {
@@ -292,7 +292,7 @@ export class ProjetoDetalheComponent {
         titulo: 'Fim Projeto',
         tipo: TipoCampo.data,
         linha: 7,
-        valor: this.projetoService.projetoAlteracao?.dtFimProj,
+        valor: this.projetoService.projetoAlteracao?.dtFimProj?.toString() !== '0000-00-00' ? this.projetoService.projetoAlteracao?.dtFimProj : undefined,
         readonly: !this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto'])
       },
       {

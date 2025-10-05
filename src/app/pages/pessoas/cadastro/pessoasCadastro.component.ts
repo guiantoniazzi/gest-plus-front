@@ -38,6 +38,7 @@ export class PessoasCadastroComponent {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.pessoasService.pessoaAlteracao?.cpfCnpj);
     this.campos = [
       {
         nome: 'cdPessoa',
@@ -63,17 +64,6 @@ export class PessoasCadastroComponent {
           })
         ),
       },
-      // {
-      //   nome: 'empresaUsuario',
-      //   titulo: 'Em qual empresa deseja realizar a ação?',
-      //   tipo: TipoCampo.select,
-      //   obrigatorio: true,
-      //   valor: empresas.length == 1 ? empresas[0].valor : this.pessoa ? this.pessoa.nome : undefined,
-      //   linha: 1,
-      //   lista: empresas,
-      //   invisivel: empresas.length == 1 ? true : false,
-      //   change: "changeEmpresaUsuario($event)"
-      // },
       {
         nome: 'nome',
         titulo: 'Nome',
@@ -87,7 +77,7 @@ export class PessoasCadastroComponent {
         nome: 'dtNasc',
         titulo: 'Data Nascimento',
         tipo: TipoCampo.data,
-        valor: this.pessoasService.pessoaAlteracao?.pessoaAux.dtNasc,
+        valor: this.pessoasService.pessoaAlteracao?.pessoaAux.dtNasc?.toString() !== '0000-00-00' ? this.pessoasService.pessoaAlteracao?.pessoaAux.dtNasc : undefined,
         linha: 2,
       },
       {
@@ -163,7 +153,7 @@ export class PessoasCadastroComponent {
         titulo: 'Data Início',
         tipo: TipoCampo.data,
         obrigatorioDisplayed: true,
-        valor: this.pessoasService.pessoaAlteracao?.funcionarioCliente?.dtInicio,
+        valor: this.pessoasService.pessoaAlteracao?.funcionarioCliente?.dtInicio?.toString() !== '0000-00-00' ? this.pessoasService.pessoaAlteracao?.funcionarioCliente?.dtInicio : undefined,
         // invisivel: true,
         linha: 5,
         condicao: "this.form.get('cliente')?.value || this.form.get('funcionario')?.value",
