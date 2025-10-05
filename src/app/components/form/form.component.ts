@@ -109,39 +109,34 @@ export class FormComponent implements OnInit, AfterViewInit {
                 }
                 if (campo.validacao == ValidacaoCampo.cpfCnpj) {
                     validators.push((control: { value: string; }) => {
-                        if (control.value.length === 14) {
-                            var cpfLimpo = control.value.replaceAll(".", "").replaceAll("-", "");
+                        if (!control.value) return null;
+                        const rawValue = control.value.replace(/\D/g, ''); // Remove tudo que não é número
 
-                            var aux = 0;
+                        if (rawValue.length === 11) {
+                            // Validação de CPF
+                            let aux = 0;
                             for (let i = 0; i < 9; i++) {
-                                aux += parseInt(cpfLimpo[i]) * (10 - i);
+                                aux += parseInt(rawValue[i]) * (10 - i);
                             }
-
                             aux = (aux * 10) % 11;
-                            if (aux !== parseInt(cpfLimpo[9])) {
+                            if (aux !== parseInt(rawValue[9])) {
                                 return { cpfCnpjInvalido: true };
                             }
-                            aux = 0
+                            aux = 0;
                             for (let i = 0; i < 10; i++) {
-                                aux += parseInt(cpfLimpo[i]) * (11 - i);
+                                aux += parseInt(rawValue[i]) * (11 - i);
                             }
-                            
                             aux = (aux * 10) % 11;
-                            if (aux !== parseInt(cpfLimpo[10])) {
+                            if (aux !== parseInt(rawValue[10])) {
                                 return { cpfCnpjInvalido: true };
                             }
-
-                        } else if (control.value.length === 18) {
-                            // const pattern = /^[a-zA-Z0-9]{2}\.[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{3}\/[a-zA-Z0-9]{4}-[a-zA-Z0-9]{2}$/;
-                            // if (!pattern.test(control.value)) {
-                            //     if (!pattern.test(control.value)) {
-                            //         return { cpfCnpjInvalido: true }; // Define o erro com a chave 'cpfCnpjInvalido'
-                            //     }
-                            // }
+                        } else if (rawValue.length === 14) {
+                            // Validação de CNPJ (pode adicionar aqui se quiser)
+                            // Se não quiser validar, apenas aceite
                         } else {
                             return { cpfCnpjInvalido: true };
                         }
-                        return null; // Return null if no error
+                        return null;
                     });
                 }
                 if (campo.lista && !isObservable(campo.lista)) {
