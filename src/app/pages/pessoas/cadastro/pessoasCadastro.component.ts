@@ -38,7 +38,6 @@ export class PessoasCadastroComponent {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.pessoasService.pessoaAlteracao?.cpfCnpj);
     this.campos = [
       {
         nome: 'cdPessoa',
