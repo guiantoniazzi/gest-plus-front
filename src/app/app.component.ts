@@ -109,16 +109,9 @@ export class AppComponent implements OnInit {
   }
 
   verificarToken() {
-    this.http.get(`${environment.apiBaseUrl}${environment.endpoints.login.verificarToken}`, {withCredentials: true}).subscribe({
-      next: (value: any) => {
-        this.authService.setLogin(value);
-      },
-      error: (err) => {
-        this.snackBar.open('Usuário ou senha inválidos!', 'Fechar', {
-          duration: 3000,
-          panelClass: ['snack-bar-failed']
-        });
-      },
-    });
+    const savedLogin = window.sessionStorage.getItem('permissoesLogin');
+    if (savedLogin) {
+      this.authService.setLogin(JSON.parse(savedLogin));
+    }
   }
 }
