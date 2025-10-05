@@ -93,13 +93,13 @@ export class PessoasComponent implements AfterViewInit {
       this.tipoPessoaList.push({label: 'Cliente', valor: Funcionalidade['Consultar cliente']});
     }
     if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar funcionário cliente'])) {
-      this.tipoPessoaList.push({label: 'Funcionário cliente', valor: Funcionalidade['Consultar funcionário cliente']});
+      this.tipoPessoaList.push({label: 'Funcionário Cliente', valor: Funcionalidade['Consultar funcionário cliente']});
     }
     if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar empresa consultoria'])) {
-      this.tipoPessoaList.push({label: 'Empresa consultoria', valor: Funcionalidade['Consultar empresa consultoria']});
+      this.tipoPessoaList.push({label: 'Empresa Consultoria', valor: Funcionalidade['Consultar empresa consultoria']});
     }
     if(this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Consultar pessoa'])) {
-      this.tipoPessoaList.push({label: 'Pessoa', valor: Funcionalidade['Consultar pessoa']});
+      this.tipoPessoaList.push({label: `Funcionário ${this.authService.empresaSelected.nomeEmpresa}`, valor: Funcionalidade['Consultar pessoa']});
     }
 
     this.dataSource.sortingDataAccessor = (item, property) => {
