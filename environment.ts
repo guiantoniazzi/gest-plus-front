@@ -1,7 +1,7 @@
 import { get } from "http";
 
 export const environment = {
-    apiBaseUrl: 'http://localhost:3030/api',
+    apiBaseUrl: process.env["API_URL"] || 'http://localhost:3030',
     endpoints: {
         login: {
             autenticar: '/login/autenticar',
