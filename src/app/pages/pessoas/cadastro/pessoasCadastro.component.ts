@@ -13,6 +13,12 @@ import { Campo } from "../../../models/campo";
 import { Cargo } from "../../../models/cargo";
 import { MatButtonModule } from "@angular/material/button";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { GanttItem, GanttLink, GanttViewType, NgxGanttModule } from "@worktile/gantt";
+import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
+import { ProjetoService } from "../../projeto/projeto.service";
+import { Atividade } from "../../../models/atividade";
+import { Projeto } from "../../../models/projeto";
 
 
 @Component({
@@ -20,22 +26,32 @@ import { FormsModule } from "@angular/forms";
   imports: [
     FormComponent,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    NgxGanttModule,
+    CommonModule,
+    MatTabsModule,
   ],
   templateUrl: './pessoasCadastro.component.html',
   styleUrl: './pessoasCadastro.component.scss',
   host: { class: 'page' }
 })
 export class PessoasCadastroComponent {
-  private pessoasService = inject(PessoasService);
+  public pessoasService = inject(PessoasService);
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
-
+  private projetoService = inject(ProjetoService);
+  
   private pessoa?: Pessoa;
   private funcionarioCliente?: Pessoa;
-
+  
   constructor() { }
+
+  campos: Campo[] = [];
+
+  items: GanttItem[] = [];
+
+  viewType: GanttViewType = GanttViewType.month
 
   ngOnInit(): void {
     this.campos = [
@@ -200,8 +216,6 @@ export class PessoasCadastroComponent {
     ];
   }
   
-  campos: Campo[] = [];
-  
   envio(value: any): void {
     if(this.pessoasService.pessoaAlteracao){
       value.cpfCnpj = value.cpfCnpj.replace('.', '').replace('/', '').replace('-', '');
@@ -238,6 +252,37 @@ export class PessoasCadastroComponent {
           });
         }
       });
+    }
+  }
+
+  tabChange(event: MatTabChangeEvent) {
+    if (event.index === 1) {
+      this.projetoService.getProjetoByCdPessoa(this.pessoasService.pessoaAlteracao?.cdPessoa!).subscribe({
+        next: (value: Projeto[]) => {
+            this.items = value.map(proj => ({ 
+              id: proj.cdProj.toString(), 
+              title: proj.nomeProj, 
+              start: Math.min(...proj.atividade!.map(ativ => new Date(ativ.dtInicioPrevista).getTime())), 
+              end: Math.max(...proj.atividade!.map(ativ => new Date(ativ.dtFimPrevista).getTime())), 
+              expandable: true, 
+              children: proj.atividade?.map(ativ => ({ 
+                id: ativ.cdAtiv.toString(), 
+                title: ativ.nomeAtiv, 
+                start: new Date(ativ.dtInicioPrevista).getTime(), 
+                end: new Date(ativ.dtFimPrevista!).getTime(),
+                color: ativ.situacaoProj.cor
+              }))
+            }));
+            console.log(this.items);
+        },
+        error: (err) => {
+          this.snackBar.open('Erro ao buscar atividades da pessoa', 'Fechar', {
+            duration: 3000,
+            panelClass: ['snack-bar-failed']
+          });
+        }
+      });
+
     }
   }
 }

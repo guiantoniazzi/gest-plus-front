@@ -1,9 +1,33 @@
 <div class="screen">
-  <app-form [campos]="campos" (submit)="envio($event)">
-    <div class="botoes">
-      <button mat-flat-button color="primary" type="submit">
-          Enviar
-      </button>
-    </div>
-  </app-form>
+  <mat-tab-group (selectedTabChange)="tabChange($event)">
+    <mat-tab label="Dados Básicos">
+      <app-form [campos]="campos" (submit)="envio($event)">
+        <div class="botoes">
+          <button mat-flat-button color="primary" type="submit">
+            Enviar
+          </button>
+        </div>
+      </app-form>
+    </mat-tab>
+    <mat-tab label="Atividades" *ngIf="!this.pessoasService.pessoaAlteracao?.pessoaAux?.cliente && 
+                                        !this.pessoasService.pessoaAlteracao?.pessoaAux?.empresa &&
+                                        !this.pessoasService.pessoaAlteracao?.funcionarioCliente">
+      <ngx-gantt 
+        [items]="items" 
+        [viewType]="viewType"
+      >
+        <ngx-gantt-table>
+          <ngx-gantt-column name="Título" width="120px">
+            <ng-template #cell let-item="item">{{ item.title }}</ng-template>
+          </ngx-gantt-column>
+          <ngx-gantt-column name="Início previsto" width="120px">
+            <ng-template #cell let-item="item">{{ item.start | date: 'yyyy-MM-dd' }}</ng-template>
+          </ngx-gantt-column>
+          <ngx-gantt-column name="Fim previsto" width="120px">
+            <ng-template #cell let-item="item">{{ item.end | date: 'yyyy-MM-dd' }}</ng-template>
+          </ngx-gantt-column>
+        </ngx-gantt-table>
+      </ngx-gantt>
+    </mat-tab>
+  </mat-tab-group>
 </div>

@@ -72,6 +72,14 @@ export class ProjetoService {
             });
     }
 
+    getProjetoByCdPessoa(cdPessoa: number): Observable<Projeto[]> {
+        return this.http
+            .get<Projeto[]>(`${environment.apiBaseUrl}${environment.endpoints.projeto.getAllByCdPessoa}`, {
+                withCredentials: true,
+                params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa, cdPessoa: cdPessoa.toString() }
+            });
+    }
+
     alocarFuncionario(alocacao: Alocacao): Observable<Alocacao> {
         return this.http.post<Alocacao>(`${environment.apiBaseUrl}${environment.endpoints.atividade.alocar}`, alocacao, {
             withCredentials: true,

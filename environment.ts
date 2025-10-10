@@ -39,6 +39,7 @@ export const environment = {
         },
         projeto: {
             getAll: '/projeto/getAll',
+            getAllByCdPessoa: '/projeto/getAllByCdPessoa',
             getHistorico: '/projeto/getHistorico',
             cadastrar: '/projeto/cadastrar',
             alterar: '/projeto/alterar',
