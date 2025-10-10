@@ -1,0 +1,17 @@
+.form {
+  padding: 0 32px 32px 32px;
+}
+
+.campo {
+  width: 100%;
+}
+
+.cdk-overlay-container {
+  z-index: 1100 !important; /* ou maior que o do MatDialog */
+}
+
+.linha {
+  display: flex; 
+  gap: 16px;
+  margin-bottom: 10px;
+}
