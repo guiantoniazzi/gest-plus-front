@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -45,21 +45,24 @@ export class AppComponent implements OnInit {
   private http = inject(HttpClient);
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
-
+  
   telasSemMenu = true;
   isDarkMode = false;
   collapsed = false;
-
+  
   rotas: Rotas[] = DEFAULT_ROTAS.filter(
     (rota) => rota.visivel
   );
-
+  
   page!: string;
   
   empresas: Empresa[] = [];
   selectedEmpresa = null;
-
-  constructor(private router: Router, public authService: AuthService) {
+  
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router, public authService: AuthService
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.page = DEFAULT_ROTAS.find((rota) => rota.link == event.url)?.label!;
@@ -109,9 +112,11 @@ export class AppComponent implements OnInit {
   }
 
   verificarToken() {
-    const savedLogin = window.sessionStorage.getItem('permissoesLogin');
-    if (savedLogin) {
-      this.authService.setLogin(JSON.parse(savedLogin));
+    if (isPlatformBrowser(this.platformId)) {
+      const savedLogin = window.sessionStorage.getItem('permissoesLogin');
+      if (savedLogin) {
+        this.authService.setLogin(JSON.parse(savedLogin));
+      }
     }
   }
 }
