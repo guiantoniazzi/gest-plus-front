@@ -1,5 +1,5 @@
 <div class="actions-consulta">
-  <div>
+  <div class="filtros">
     <mat-form-field>
       <mat-label>Tipo de Pessoa</mat-label>
       <mat-select multiple [(ngModel)]="tipoPessoaSelected" (selectionChange)="changeTipoPessoa($event)">
@@ -43,5 +43,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" aria-label="Select page of dataSource"></mat-paginator>
+  <div class="listgem-paginator">
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" aria-label="Select page of dataSource"></mat-paginator>
+  </div>
 </div>
