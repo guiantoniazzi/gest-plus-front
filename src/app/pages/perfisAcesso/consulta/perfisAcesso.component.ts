@@ -58,15 +58,19 @@ export class PerfisAcessoComponent implements AfterViewInit {
       return dataStr.toLowerCase().includes(filter);
     };
 
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'descricao':
-          return item.nomePerfil.toLowerCase();
-        case 'quantidadeFuncoes':
-          return item.funcoes.length;
-        default:
-          return (item as any)[property];
-      }
+    // this.dataSource.sortingDataAccessor = (item, property) => {
+    //   switch (property) {
+    //     case 'descricao':
+    //       return item.nomePerfil.toLowerCase();
+    //     case 'quantidadeFuncoes':
+    //       return item.funcoes.length;
+    //     default:
+    //       return (item as any)[property];
+    //   }
+    // };
+
+    this.dataSource.filterPredicate = (data: PerfisAcesso, filter: string) => {
+      return data.nomePerfil.toLowerCase().includes(filter.toLowerCase());
     };
   }
 
