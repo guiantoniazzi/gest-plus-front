@@ -102,15 +102,18 @@ export class PessoasComponent implements AfterViewInit {
       this.tipoPessoaList.push({label: `Funcionário ${this.authService.empresaSelected.nomeEmpresa}`, valor: Funcionalidade['Consultar pessoa']});
     }
 
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'descricao':
-          return ''//item.nomePerfil.toLowerCase();
-        case 'quantidadeFuncoes':
-          return ''//item.funcoes.length;
-        default:
-          return (item as any)[property];
-      }
+    // this.dataSource.sortingDataAccessor = (item, property) => {
+    //   switch (property) {
+    //     case 'descricao':
+    //       return ''//item.nomePerfil.toLowerCase();
+    //     case 'quantidadeFuncoes':
+    //       return ''//item.funcoes.length;
+    //     default:
+    //       return (item as any)[property];
+    //   }
+    // };
+    this.dataSource.filterPredicate = (data: Pessoa, filter: string) => {
+      return data.pessoaAux.nome.toLowerCase().includes(filter.toLowerCase());
     };
   }
 

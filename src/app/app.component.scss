@@ -2,14 +2,6 @@
 
 // Customize the entire app. Change :root to your selector if you want to scope the styles.
 
-// .screen {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100vh;
-//     width: 100vw;
-//     padding: 0;
-// }
-
 .body {
     display: flex;
     flex-direction: row;
@@ -17,15 +9,17 @@
 
 .sidenav-container {
     height: 90vh;
+    width: styles.$width-menu-lateral;
 }
 
 .sidenav {
     width: styles.$width-menu-lateral;
     background: #f4f4f4;
+    
 }
 
 .collapsed {
-    width: 60px !important;
+    width: 3vw !important;
 }
 
 .menu-item {
@@ -33,59 +27,68 @@
     gap: 10px;
 }
 
-// mat-nav-list a {
-//     display: flex;
-//     align-items: center;
-//     gap: 10px;
-//     text-decoration: none;
-//     color: black;
-// }
-
 mat-toolbar {
     display: flex;
     justify-content: space-between;
     height: 10vh;
     padding: 0;
+    
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+        width: 100vw;
+        width: 100vw;
+    
+        .drawer-logo {
+            height: 10vh;
+            width: 13vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .logo-image {
+                width: 40%;
+                height: 40%;
+                object-fit: contain;
+                object-position: center;
+                margin-right: 5vw;
+            }
+        }
+        
+        .page-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 85vw;
+            
+            .empresa-selected {
+                // border: 1px solid gray;
+                font-size: large;
+                gap: 1vw;
+                display: flex;
+                align-items: center;
+                width: 20vw;
+                height: 5vh;
+                padding: 1%;
+                
+                mat-select {
+                    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+                    height: 4vh;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 2vw;
+        }
+    }
 }
 
-.logo {
-    width: styles.$width-menu-lateral;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.example-container {
-    background-color: red;
-}
-
-.page-title {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2vw 0 0vw;
-    width: 98vw - styles.$width-menu-lateral;
-}
-
-.page-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 60%;
-}
-
-.empresa-selected {
-    gap: 20px;
-    display: flex;
-    align-items: flex-end;
-    width: 30vw;
-}
-
-.logo-image {
-    width: 40%;
-    height: 40%;
-    object-fit: contain;
-    object-position: center;
-}
 
 .router-wrapper {
     overflow-y: auto;
@@ -102,3 +105,4 @@ mat-toolbar {
     background-color: rgb(240, 53, 53) !important;
     color: white !important;
 }
+

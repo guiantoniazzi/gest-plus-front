@@ -109,6 +109,7 @@ export class AppComponent implements OnInit {
 
   drawerClick() {
     this.collapsed = !this.collapsed;
+    document.getElementsByClassName('page')[0].classList.toggle('sidenav-collapsed');
   }
 
   verificarToken() {

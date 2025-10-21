@@ -32,7 +32,7 @@ $light-theme: mat.m2-define-light-theme((color: (primary: $my-primary,
 
 $medium-width-button: 15vw;
 
-$width-menu-lateral: 18vw;
+$width-menu-lateral: 15vw;
 
 
 html {
@@ -47,12 +47,32 @@ body {
 }
 
 .page {
-  width: 100%;
-  padding: 0 1% 1% 1%;
+  flex-direction: column;
+  display: flex;
+  padding: 1vh 0.5vw;
+  height: 90vh;
+  width: 86vw;
+
+  &.sidenav-collapsed {
+    width: 96vw;
+  }
 }
 
 .actions-consulta {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding-right: 2vw;
+  height: 10vh;
+  
+  .filtros {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+  }
+}
+
+
+.listgem-paginator {
+  position: absolute;
+  top: 90vh;
 }

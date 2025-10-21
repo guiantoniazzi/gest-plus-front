@@ -20,19 +20,19 @@ import { AuthService } from '../../../guard/auth.service';
 @Component({
   selector: 'app-projeto',
   imports: [
-    MatTableModule, 
-    MatIconModule, 
-    CommonModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
+    MatTableModule,
+    MatIconModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './projeto.component.html',
   styleUrl: './projeto.component.scss',
-  host: { class: 'page' }
+  host: { class: 'page' },
 })
 export class ProjetoComponent implements AfterViewInit {
   private router = inject(Router);
@@ -49,7 +49,7 @@ export class ProjetoComponent implements AfterViewInit {
       },
       error(err) {
         console.error(err);
-      }
+      },
     });
   }
 
@@ -57,7 +57,13 @@ export class ProjetoComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  
+
+  ngOnInit() {
+    this.dataSource.filterPredicate = (data: Projeto, filter: string) => {
+      return data.nomeProj.toLowerCase().includes(filter.toLowerCase());
+    };
+  }
+
   columns = [
     {
       columnDef: 'nome',
@@ -77,17 +83,17 @@ export class ProjetoComponent implements AfterViewInit {
     {
       columnDef: 'situacao',
       header: 'Situação',
-      cell: (e: Projeto) => `${e.situacaoProj.descSituacao }`,
+      cell: (e: Projeto) => `${e.situacaoProj.descSituacao}`,
     },
-        {
+    {
       columnDef: 'funcoes',
       header: 'Funções',
       cell: () => ``,
-    }
+    },
   ];
   dataSource: MatTableDataSource<Projeto> = new MatTableDataSource<Projeto>([]);
-  displayedColumns = this.columns.map(c => c.columnDef);
-  
+  displayedColumns = this.columns.map((c) => c.columnDef);
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -108,6 +114,8 @@ export class ProjetoComponent implements AfterViewInit {
   }
 
   verificaPermissaoGerenciar(): boolean {
-    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(Funcionalidade['Gerenciar projeto']); 
+    return this.authService.verificaPermissaoParaFuncaoNaEmpresa(
+      Funcionalidade['Gerenciar projeto']
+    );
   }
 }
