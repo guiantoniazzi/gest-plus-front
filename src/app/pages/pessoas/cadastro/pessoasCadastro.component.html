@@ -9,7 +9,8 @@
         </div>
       </app-form>
     </mat-tab>
-    <mat-tab label="Atividades" *ngIf="!this.pessoasService.pessoaAlteracao?.pessoaAux?.cliente && 
+    <mat-tab label="Atividades" *ngIf="this.pessoasService.pessoaAlteracao &&
+                                        !this.pessoasService.pessoaAlteracao?.pessoaAux?.cliente && 
                                         !this.pessoasService.pessoaAlteracao?.pessoaAux?.empresa &&
                                         !this.pessoasService.pessoaAlteracao?.funcionarioCliente">
       <ngx-gantt 
