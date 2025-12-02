@@ -9,25 +9,34 @@
         </div>
       </app-form>
     </mat-tab>
-    <mat-tab label="Atividades" *ngIf="!this.pessoasService.pessoaAlteracao?.pessoaAux?.cliente && 
+    <mat-tab label="Atividades" *ngIf="this.pessoasService.pessoaAlteracao &&
+                                        !this.pessoasService.pessoaAlteracao?.pessoaAux?.cliente && 
                                         !this.pessoasService.pessoaAlteracao?.pessoaAux?.empresa &&
                                         !this.pessoasService.pessoaAlteracao?.funcionarioCliente">
-      <ngx-gantt 
-        [items]="items" 
-        [viewType]="viewType"
-      >
-        <ngx-gantt-table>
-          <ngx-gantt-column name="Título" width="120px">
-            <ng-template #cell let-item="item">{{ item.title }}</ng-template>
-          </ngx-gantt-column>
-          <ngx-gantt-column name="Início previsto" width="120px">
-            <ng-template #cell let-item="item">{{ item.start | date: 'yyyy-MM-dd' }}</ng-template>
-          </ngx-gantt-column>
-          <ngx-gantt-column name="Fim previsto" width="120px">
-            <ng-template #cell let-item="item">{{ item.end | date: 'yyyy-MM-dd' }}</ng-template>
-          </ngx-gantt-column>
-        </ngx-gantt-table>
-      </ngx-gantt>
+      <ng-container *ngIf="(items?.length ?? 0) > 0; else emptyGantt">
+        <ngx-gantt 
+          [items]="items" 
+          [viewType]="viewType"
+        >
+          <ngx-gantt-table>
+            <ngx-gantt-column name="Título" width="120px">
+              <ng-template #cell let-item="item">{{ item.title }}</ng-template>
+            </ngx-gantt-column>
+            <ngx-gantt-column name="Início previsto" width="120px">
+              <ng-template #cell let-item="item">{{ item.start | date: 'yyyy-MM-dd' }}</ng-template>
+            </ngx-gantt-column>
+            <ngx-gantt-column name="Fim previsto" width="120px">
+              <ng-template #cell let-item="item">{{ item.end | date: 'yyyy-MM-dd' }}</ng-template>
+            </ngx-gantt-column>
+          </ngx-gantt-table>
+        </ngx-gantt>
+      </ng-container>
+
+      <ng-template #emptyGantt>
+        <div class="gantt-empty" style="padding:24px; text-align:center; color:#666;">
+          Nenhuma tarefa no cronograma
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>

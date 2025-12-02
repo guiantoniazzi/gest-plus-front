@@ -84,6 +84,8 @@ export class FormComponent implements OnInit, AfterViewInit {
     private snackBar = inject(MatSnackBar);
 
     linhas: Campo[][] = [];
+    // keep base validators for controls so we can toggle required dynamically
+    private _baseValidators: Map<string, any[]> = new Map();
 
     constructor() {
         // Garante que o DateAdapter use pt-BR
@@ -97,10 +99,9 @@ export class FormComponent implements OnInit, AfterViewInit {
                 let validators = [];
                 const isVisible = !campo.invisivel && this.verificarCondicao(campo.condicao);
 
-                // Se obrigatorioDisplayed está definido, usa ele para obrigatoriedade apenas quando visível
-                if (campo.obrigatorioDisplayed && isVisible) {
-                    validators.push(Validators.required);
-                } 
+                // If obrigatorioDisplayed is set we will treat required as conditional
+                // so we do NOT add the Validators.required here — it will be toggled
+                // later depending on the visibility. Always add the static obrigatorio.
                 if (campo.obrigatorio) {
                     validators.push(Validators.required);
                 }
@@ -142,10 +143,21 @@ export class FormComponent implements OnInit, AfterViewInit {
                 if (campo.lista && !isObservable(campo.lista)) {
                     campo.listaObservable = of(campo.lista); // Converte arrays simples em Observable
                 }
-                this.form.addControl(
-                    campo.nome,
-                    this.fb.control(campo.valor || '', validators)
-                );
+                // store base validators (without conditional required from obrigatorioDisplayed)
+                this._baseValidators.set(campo.nome, validators.slice());
+
+                // create control with base validators
+                this.form.addControl(campo.nome, this.fb.control(campo.valor || '', validators));
+
+                // If this field has conditional required and is visible on init, add required
+                if (campo.obrigatorioDisplayed && isVisible) {
+                    const control = this.form.get(campo.nome);
+                    if (control) {
+                        const base = this._baseValidators.get(campo.nome) || [];
+                        control.setValidators([...base, Validators.required]);
+                        control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+                    }
+                }
                 if(campo.tipo === TipoCampo.select && campo.listaObservable) {
                     // Adiciona um FormControl para o filtro do select
                     this.form.addControl('filtro'+campo.nome, this.fb.control(''));
@@ -163,6 +175,26 @@ export class FormComponent implements OnInit, AfterViewInit {
                         })
                     );
                 }
+            });
+            // watch form value changes so conditional-required fields follow visibility changes
+            this.form.valueChanges.pipe(startWith(this.form.value)).subscribe(() => {
+                this.campos.forEach(campo => {
+                    if (!campo.obrigatorioDisplayed) return; // only manage conditional required
+
+                    const visible = !campo.invisivel && this.verificarCondicao(campo.condicao);
+                    const control = this.form.get(campo.nome);
+                    if (!control) return;
+
+                    const base = this._baseValidators.get(campo.nome) || [];
+
+                    // if visible -> ensure required present; if not visible -> ensure required removed
+                    if (visible) {
+                        control.setValidators([...base, Validators.required]);
+                    } else {
+                        control.setValidators(base);
+                    }
+                    control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+                });
             });
             this.agruparCamposPorLinha();
         }
