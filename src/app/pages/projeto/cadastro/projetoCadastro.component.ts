@@ -15,6 +15,7 @@ import { Campo } from "../../../models/campo";
 import { SituacaoProj } from "../../../models/situacaoProj";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
+import { Projeto } from "../../../models/projeto";
 
 
 @Component({
@@ -222,8 +223,6 @@ export class ProjetoCadastroComponent {
 
               panelClass: ['snack-bar-success']
             });
-          this.projetoService.projetoAlteracao = undefined;
-          this.router.navigate(['/projeto']);
         },
 
         error: (err) => {
@@ -239,7 +238,7 @@ export class ProjetoCadastroComponent {
     }
     else {
       this.projetoService.cadastrarProjeto(value).subscribe({
-        next: (value: any) => {
+        next: (value: Projeto) => {
           this.snackBar.open('Projeto cadastrado com sucesso!',
             'Fechar',
             {
@@ -247,7 +246,8 @@ export class ProjetoCadastroComponent {
 
               panelClass: ['snack-bar-success']
             });
-          this.projetoService.projetoAlteracao = undefined;
+          this.projetoService.projetoAlteracao = value;
+          this.router.navigate(['/projeto/detalhe']);
         },
 
         error: (err) => {

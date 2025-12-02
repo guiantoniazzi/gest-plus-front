@@ -244,6 +244,7 @@ export class PessoasCadastroComponent {
             panelClass: ['snack-bar-success']
           });
           this.pessoasService.pessoaAlteracao = undefined;
+          this.router.navigate(['/pessoas']);
         },
         error: (err) => {
           this.snackBar.open('Erro ao cadastrar a pessoa', 'Fechar', {
