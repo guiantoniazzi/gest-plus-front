@@ -234,8 +234,8 @@ export class TarefaDialogComponent {
   }
 
   envio(value: any): void {
+    value.cdAtiv = this.projetoService.atividadeAlteracao?.cdAtiv;
     if (value.cdPessoa) {
-      value.cdAtiv = this.projetoService.atividadeAlteracao?.cdAtiv;
       value.cdProj = this.projetoService.atividadeAlteracao?.cdProj;
       this.projetoService.alocarFuncionario(value).subscribe({
         next: (response: any) => {
@@ -273,29 +273,56 @@ export class TarefaDialogComponent {
         },
       });
     } else {
-      this.projetoService.cadastrarAtividade(value).subscribe({
-        next: (response: any) => {
-          this.snackBar.open('Atividade cadastrada com sucesso', 'Fechar', {
-            duration: 3000,
-            panelClass: ['snack-bar-success'],
+      if(this.projetoService.atividadeAlteracao){
+        this.projetoService.alterarAtividade(value).subscribe({
+          next: (response: any) => {
+            this.snackBar.open('Atividade alterada com sucesso', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-success'],
+            });
+            this.projetoService.atividadeAlteracao = response;
+            this.camposAlocacoes.forEach((campo) => {
+              if (['dtInicio', 'dtFim'].includes(campo.nome)) {
+                campo.minData =
+                  this.projetoService.atividadeAlteracao?.dtInicioPrevista;
+                campo.maxData =
+                  this.projetoService.atividadeAlteracao?.dtFimPrevista;
+              }
           });
-          this.projetoService.atividadeAlteracao = response;
-          this.camposAlocacoes.forEach((campo) => {
-            if (['dtInicio', 'dtFim'].includes(campo.nome)) {
-              campo.minData =
-                this.projetoService.atividadeAlteracao?.dtInicioPrevista;
-              campo.maxData =
-                this.projetoService.atividadeAlteracao?.dtFimPrevista;
-            }
-          });
-        },
-        error: (err) => {
-          this.snackBar.open('Erro ao cadastrar a atividade', 'Fechar', {
-            duration: 3000,
-            panelClass: ['snack-bar-failed'],
-          });
-        },
-      });
+          }
+          ,
+          error: (err) => {
+            this.snackBar.open('Erro ao alterar a atividade', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed'],
+            });
+          },
+        });
+      } else {
+        this.projetoService.cadastrarAtividade(value).subscribe({
+          next: (response: any) => {
+            this.snackBar.open('Atividade cadastrada com sucesso', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-success'],
+            });
+            this.projetoService.atividadeAlteracao = response;
+            this.camposAlocacoes.forEach((campo) => {
+              if (['dtInicio', 'dtFim'].includes(campo.nome)) {
+                campo.minData =
+                  this.projetoService.atividadeAlteracao?.dtInicioPrevista;
+                campo.maxData =
+                  this.projetoService.atividadeAlteracao?.dtFimPrevista;
+              }
+            });
+          },
+          error: (err) => {
+            this.snackBar.open('Erro ao cadastrar a atividade', 'Fechar', {
+              duration: 3000,
+              panelClass: ['snack-bar-failed'],
+            });
+          },
+        });
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import { get } from "http";
 
 export const environment = {
-    apiBaseUrl: 'https://gest-plus-back.onrender.com/api',
+    apiBaseUrl: 'http://localhost:3030/api',
     endpoints: {
         login: {
             autenticar: '/login/autenticar',
@@ -50,6 +50,7 @@ export const environment = {
         atividade: {
             getByProj: '/atividade/getByProj',
             cadastrar: '/atividade/cadastrar',
+            alterar: '/atividade/alterar',
             alocar: '/atividade/alocar',
         }
     }
