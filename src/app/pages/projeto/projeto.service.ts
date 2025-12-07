@@ -42,6 +42,13 @@ export class ProjetoService {
         });
     }
 
+    alterarAtividade(atividade: Atividade): Observable<Atividade> {
+        return this.http.put<Atividade>(`${environment.apiBaseUrl}${environment.endpoints.atividade.alterar}`, atividade, {
+            withCredentials: true,
+            params: { empresaSelecionada: this.authService.empresaSelected.cdEmpresa }
+        });
+    }
+
     cadastrarProjeto(projeto: Projeto): Observable<Projeto> {
         return this.http.post<Projeto>(`${environment.apiBaseUrl}${environment.endpoints.projeto.cadastrar}`, projeto, {
             withCredentials: true,
